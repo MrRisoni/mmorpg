@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: May 04, 2021 at 04:11 PM
+-- Generation Time: May 04, 2021 at 04:23 PM
 -- Server version: 10.5.9-MariaDB
 -- PHP Version: 7.4.16
 
@@ -24,6 +24,48 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `accounts`
+--
+
+CREATE TABLE `accounts` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `username` varchar(45) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `accounts`
+--
+
+INSERT INTO `accounts` (`id`, `username`) VALUES
+(1, 'shiar'),
+(2, 'kungen');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `auction_bids_history`
+--
+
+CREATE TABLE `auction_bids_history` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `bidder_id` bigint(20) UNSIGNED NOT NULL,
+  `listing_id` bigint(20) UNSIGNED NOT NULL,
+  `bid_g` mediumint(8) UNSIGNED NOT NULL,
+  `bid_s` tinyint(3) UNSIGNED NOT NULL,
+  `bid_c` tinyint(3) UNSIGNED NOT NULL,
+  `created_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `auction_bids_history`
+--
+
+INSERT INTO `auction_bids_history` (`id`, `bidder_id`, `listing_id`, `bid_g`, `bid_s`, `bid_c`, `created_at`) VALUES
+(1, 2, 1, 801, 0, 0, '2021-05-04 16:20:56');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `auction_categories`
 --
 
@@ -33,6 +75,14 @@ CREATE TABLE `auction_categories` (
   `title` varchar(45) NOT NULL,
   `show_order` tinyint(3) UNSIGNED NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `auction_categories`
+--
+
+INSERT INTO `auction_categories` (`id`, `parent_id`, `title`, `show_order`) VALUES
+(1, 1, 'Reagents', 0),
+(2, 0, 'Alchemy', 0);
 
 -- --------------------------------------------------------
 
@@ -46,16 +96,23 @@ CREATE TABLE `auction_listings` (
   `item_id` bigint(20) UNSIGNED NOT NULL,
   `auction_category_id` int(10) UNSIGNED NOT NULL,
   `quantity` tinyint(3) UNSIGNED NOT NULL,
-  `starting_bid_g` mediumint(8) UNSIGNED NOT NULL,
-  `starting_bid_c` tinyint(3) UNSIGNED NOT NULL,
-  `starting_bid_s` tinyint(3) UNSIGNED NOT NULL,
+  `starting_bid_g` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
+  `starting_bid_c` tinyint(3) UNSIGNED NOT NULL DEFAULT 0,
+  `starting_bid_s` tinyint(3) UNSIGNED NOT NULL DEFAULT 0,
   `buyout_g` mediumint(8) UNSIGNED NOT NULL,
-  `buyout_s` tinyint(3) UNSIGNED NOT NULL,
-  `buyout_c` tinyint(3) UNSIGNED NOT NULL,
+  `buyout_s` tinyint(3) UNSIGNED NOT NULL DEFAULT 0,
+  `buyout_c` tinyint(3) UNSIGNED NOT NULL DEFAULT 0,
   `created_at` datetime NOT NULL,
   `expires_at` datetime NOT NULL,
   `delisted` tinyint(4) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `auction_listings`
+--
+
+INSERT INTO `auction_listings` (`id`, `character_id`, `item_id`, `auction_category_id`, `quantity`, `starting_bid_g`, `starting_bid_c`, `starting_bid_s`, `buyout_g`, `buyout_s`, `buyout_c`, `created_at`, `expires_at`, `delisted`) VALUES
+(1, 1, 1, 2, 10, 800, 0, 0, 900, 0, 0, '2021-05-04 16:17:35', '2021-05-04 16:17:35', 0);
 
 -- --------------------------------------------------------
 
@@ -65,6 +122,7 @@ CREATE TABLE `auction_listings` (
 
 CREATE TABLE `characters` (
   `id` bigint(20) UNSIGNED NOT NULL,
+  `account_id` bigint(20) UNSIGNED NOT NULL DEFAULT 1,
   `realm_id` int(10) UNSIGNED NOT NULL,
   `race_id` tinyint(3) UNSIGNED NOT NULL,
   `class_id` tinyint(3) UNSIGNED NOT NULL,
@@ -77,6 +135,14 @@ CREATE TABLE `characters` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `characters`
+--
+
+INSERT INTO `characters` (`id`, `account_id`, `realm_id`, `race_id`, `class_id`, `name`, `lvl`, `gold`, `silver`, `copper`, `location`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 1, 2, 'Shiar', 60, 45000, 77, 45, '', '2021-05-04 16:13:32', '2021-05-04 16:13:32'),
+(2, 2, 1, 2, 1, 'Kungen', 70, 0, 0, 0, '', '2021-05-04 16:15:21', '2021-05-04 16:15:21');
 
 -- --------------------------------------------------------
 
@@ -123,9 +189,16 @@ INSERT INTO `factions` (`id`, `title`) VALUES
 --
 
 CREATE TABLE `items` (
-  `id` bigint(20) NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
   `title` varchar(60) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `items`
+--
+
+INSERT INTO `items` (`id`, `title`) VALUES
+(1, 'Arcanite Bar');
 
 -- --------------------------------------------------------
 
@@ -192,8 +265,29 @@ CREATE TABLE `realms` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
+-- Dumping data for table `realms`
+--
+
+INSERT INTO `realms` (`id`, `realm_category_id`, `name`) VALUES
+(1, 1, 'Ahn\'Qiraj');
+
+--
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `accounts`
+--
+ALTER TABLE `accounts`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `auction_bids_history`
+--
+ALTER TABLE `auction_bids_history`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `bidder_id` (`bidder_id`),
+  ADD KEY `listing_id` (`listing_id`);
 
 --
 -- Indexes for table `auction_categories`
@@ -205,7 +299,21 @@ ALTER TABLE `auction_categories`
 -- Indexes for table `auction_listings`
 --
 ALTER TABLE `auction_listings`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `character_id` (`character_id`),
+  ADD KEY `item_id` (`item_id`),
+  ADD KEY `auction_category_id` (`auction_category_id`),
+  ADD KEY `character_id_2` (`character_id`);
+
+--
+-- Indexes for table `characters`
+--
+ALTER TABLE `characters`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `realm_id` (`realm_id`),
+  ADD KEY `race_id` (`race_id`),
+  ADD KEY `class_id` (`class_id`),
+  ADD KEY `account_id` (`account_id`);
 
 --
 -- Indexes for table `classes`
@@ -259,16 +367,34 @@ ALTER TABLE `realms`
 --
 
 --
+-- AUTO_INCREMENT for table `accounts`
+--
+ALTER TABLE `accounts`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `auction_bids_history`
+--
+ALTER TABLE `auction_bids_history`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `auction_categories`
 --
 ALTER TABLE `auction_categories`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `auction_listings`
 --
 ALTER TABLE `auction_listings`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `characters`
+--
+ALTER TABLE `characters`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `classes`
@@ -286,7 +412,7 @@ ALTER TABLE `factions`
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `npcs`
@@ -310,11 +436,35 @@ ALTER TABLE `race_class_combo`
 -- AUTO_INCREMENT for table `realms`
 --
 ALTER TABLE `realms`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `auction_bids_history`
+--
+ALTER TABLE `auction_bids_history`
+  ADD CONSTRAINT `auction_bids_history_ibfk_1` FOREIGN KEY (`bidder_id`) REFERENCES `characters` (`id`),
+  ADD CONSTRAINT `auction_bids_history_ibfk_2` FOREIGN KEY (`listing_id`) REFERENCES `auction_listings` (`id`);
+
+--
+-- Constraints for table `auction_listings`
+--
+ALTER TABLE `auction_listings`
+  ADD CONSTRAINT `auction_listings_ibfk_1` FOREIGN KEY (`auction_category_id`) REFERENCES `auction_categories` (`id`),
+  ADD CONSTRAINT `auction_listings_ibfk_2` FOREIGN KEY (`character_id`) REFERENCES `characters` (`id`),
+  ADD CONSTRAINT `auction_listings_ibfk_3` FOREIGN KEY (`item_id`) REFERENCES `items` (`id`);
+
+--
+-- Constraints for table `characters`
+--
+ALTER TABLE `characters`
+  ADD CONSTRAINT `characters_ibfk_1` FOREIGN KEY (`class_id`) REFERENCES `classes` (`id`),
+  ADD CONSTRAINT `characters_ibfk_2` FOREIGN KEY (`race_id`) REFERENCES `races` (`id`),
+  ADD CONSTRAINT `characters_ibfk_3` FOREIGN KEY (`realm_id`) REFERENCES `realms` (`id`),
+  ADD CONSTRAINT `characters_ibfk_4` FOREIGN KEY (`account_id`) REFERENCES `accounts` (`id`);
 
 --
 -- Constraints for table `race_class_combo`
