@@ -1,4 +1,4 @@
-const AuctionHouseDAO = require('../daos/auction_house_dao.js');
+const AuctionHouseDAO = require('../../daos/AuctionHouse/auction_house_dao.js');
 
 function getListingsForItem(req, res) {
    console.log('params ' + req.params.itemId);

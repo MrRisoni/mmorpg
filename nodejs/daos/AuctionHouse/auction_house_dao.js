@@ -1,6 +1,4 @@
-const dbObj = require('./models');
-
-//                 [{model: dbObj.auctionHouseListingMdl}, {model: dbObj.auctionHouseBiddingMdl}, 'name', 'desc'],
+const dbObj = require('./../models');
 
 
 function  getListingsForItem(itemId = 1) {
