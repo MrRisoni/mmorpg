@@ -6,20 +6,25 @@ function  getListingsForItem(itemId = 1) {
 
         dbObj.auctionHouseListingMdl.findAll({
             where: {
-                itemId: itemId
+                itemId: itemId,
+                delisted :0,
+                sold:0
             },
             order: [
-                ['startingBidTotal', 'ASC'],
+                ['buyoutTotal', 'ASC'],
             ],
             include: [
                 {
                     model: dbObj.itemsMdl,
-                    as: 'itemObj',
-                    required: false
+                    as: 'itemObj'
                 },
                 {
                     model: dbObj.charactersMdl,
-                    as: 'sellerObj',
+                    as: 'sellerObj'
+                },
+                {
+                    model: dbObj.auctionHouseBiddingMdl,
+                    as: 'bidsListObj',
                     required: false
                 }
             ]
