@@ -1,5 +1,7 @@
 const dbObj = require('./models');
 
+//                 [{model: dbObj.auctionHouseListingMdl}, {model: dbObj.auctionHouseBiddingMdl}, 'name', 'desc'],
+
 
 function  getListingsForItem(itemId = 1) {
     return new Promise((resolve, reject) => {
@@ -12,7 +14,11 @@ function  getListingsForItem(itemId = 1) {
             },
             order: [
                 ['buyoutTotal', 'ASC'],
-            ],
+                [
+                { model: dbObj.auctionHouseBiddingMdl, as: 'bidsListObj' },
+                'bidTotal',
+                'desc']
+                ],
             include: [
                 {
                     model: dbObj.itemsMdl,

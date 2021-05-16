@@ -143,19 +143,19 @@ const auctionHouseBiddingMdl = sequelize.define('auction_bids_history', {
         type: Sequelize.INTEGER.UNSIGNED,
         field: 'listing_id'
     },
-    startingBidTotal: {
+    bidTotal: {
         type: Sequelize.FLOAT,
         field: 'bid_total'
     },
-    startingBidGold: {
+    bidGold: {
         type: Sequelize.INTEGER.UNSIGNED,
         field: 'bid_g'
     },
-    startingBidSilver: {
+    bidSilver: {
         type: Sequelize.INTEGER.UNSIGNED,
         field: 'bid_s'
     },
-    startingBidCopper: {
+    bidCopper: {
         type: Sequelize.INTEGER.UNSIGNED,
         field: 'bid_c'
     }
@@ -169,6 +169,8 @@ const auctionHouseBiddingMdl = sequelize.define('auction_bids_history', {
 
 auctionHouseListingMdl.belongsTo(itemsMdl, {foreignKey: 'item_id', as: 'itemObj'});
 auctionHouseListingMdl.belongsTo(charactersMdl, {foreignKey: 'character_id', as: 'sellerObj'});
+
+
 auctionHouseListingMdl.hasMany(auctionHouseBiddingMdl, {foreignKey: 'listing_id', as: 'bidsListObj'});
 
 module.exports = {
