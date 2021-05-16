@@ -9,11 +9,9 @@ const cors = require('cors');
 app.use(bodyParser.json());
 app.use(cors());
 
-const productRoutes = require("./routes/product_routes");
-const orderRoutes = require("./routes/orders_routes");
+const auctionHouseRoutes = require("./routes/auction_house_routes");
 
-app.use("/", productRoutes);
-app.use("/", orderRoutes);
+app.use("/", auctionHouseRoutes);
 
 http.listen(port, (req, res) => {
     console.log('Server listening on port number', port);
