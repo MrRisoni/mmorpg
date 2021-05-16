@@ -1,9 +1,11 @@
+const Sequelize = require('sequelize');
+
+
 var MYSQL_NAME = process.env.SPRING_APP_DB_ECOMMERCE_USR;
 var MYSQL_PASSWD = process.env.SPRING_APP_DB_ECOMMERCE_PASSWD;
 var MYSQL_HOST = process.env.SPRING_APP_DB_ECOMMERCE_HOST;
 var MYSQL_DB = 'mmorpg_db';
 
-const Sequelize = require('sequelize');
 
 const sequelize = new Sequelize(MYSQL_DB, MYSQL_NAME, MYSQL_PASSWD, {
     host: MYSQL_HOST,
@@ -161,6 +163,7 @@ const auctionHouseBiddingMdl = sequelize.define('auction_bids_history', {
         freezeTableName: true
     }
 );
+
 
 
 auctionHouseListingMdl.belongsTo(itemsMdl, {foreignKey: 'item_id', as: 'itemObj'});
