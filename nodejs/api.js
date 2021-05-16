@@ -9,8 +9,10 @@ app.use(bodyParser.json());
 app.use(cors());
 
 const auctionHouseRoutes = require("./routes/AuctionHouse/auction_house_routes");
+const charCreationRoutes = require("./routes/CharCreation/char_creation_routes");
 
 app.use("/", auctionHouseRoutes);
+app.use("/", charCreationRoutes);
 
 http.listen(port, (req, res) => {
     console.log('Server listening on port number', port);

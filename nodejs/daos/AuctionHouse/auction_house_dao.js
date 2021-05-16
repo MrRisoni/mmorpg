@@ -3,7 +3,6 @@ const dbObj = require('./../models');
 
 function  getListingsForItem(itemId = 1) {
     return new Promise((resolve, reject) => {
-
         dbObj.auctionHouseListingMdl.findAll({
             where: {
                 itemId: itemId,
@@ -29,7 +28,10 @@ function  getListingsForItem(itemId = 1) {
                 {
                     model: dbObj.auctionHouseBiddingMdl,
                     as: 'bidsListObj',
-                    required: false
+                    required: false,
+                    where: {
+                        active: 1
+                    },
                 }
             ]
         }).then(results => {

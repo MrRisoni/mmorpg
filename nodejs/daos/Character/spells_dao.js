@@ -1,0 +1,1 @@
+SELECT sp.id,sp.title FROM spells sp LEFT JOIN learned_spells lsp ON lsp.spell_id = sp.id AND lsp.character_id = 3 WHERE lsp.spell_id IS NULL 

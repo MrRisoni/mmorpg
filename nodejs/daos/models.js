@@ -165,19 +165,78 @@ const auctionHouseBiddingMdl = sequelize.define('auction_bids_history', {
 );
 
 
+const racesMdl = sequelize.define('races', {
+        id: {
+            type: Sequelize.INTEGER.UNSIGNED,
+            field: 'id',
+            autoIncrement: true,
+            primaryKey: true,
+        },
+        title: {
+            type: Sequelize.CHAR,
+            field: 'title'
+        }
+    },
+    {
+        timestamps: false,
+        freezeTableName: true
+    }
+);
+
+const classesMdl = sequelize.define('classes', {
+        id: {
+            type: Sequelize.INTEGER.UNSIGNED,
+            field: 'id',
+            autoIncrement: true,
+            primaryKey: true,
+        },
+        title: {
+            type: Sequelize.CHAR,
+            field: 'title'
+        }
+    },
+    {
+        timestamps: false,
+        freezeTableName: true
+    }
+);
+
+const racesClassesMdl = sequelize.define('race_class_combo', {
+        id: {
+            type: Sequelize.INTEGER.UNSIGNED,
+            field: 'id',
+            autoIncrement: true,
+            primaryKey: true,
+        },
+        raceId: {
+            type: Sequelize.INTEGER.UNSIGNED,
+            field: 'race_id'
+        }
+    },
+    {
+        timestamps: false,
+        freezeTableName: true
+    }
+);
 
 auctionHouseListingMdl.belongsTo(itemsMdl, {foreignKey: 'item_id', as: 'itemObj'});
 auctionHouseListingMdl.belongsTo(charactersMdl, {foreignKey: 'character_id', as: 'sellerObj'});
 
-
 auctionHouseListingMdl.hasMany(auctionHouseBiddingMdl, {foreignKey: 'listing_id', as: 'bidsListObj'});
+
+racesClassesMdl.belongsTo(racesMdl, {foreignKey: 'race_id', as: 'raceObj'});
+racesClassesMdl.belongsTo(classesMdl, {foreignKey: 'class_id', as: 'classObj'});
+
 
 module.exports = {
     dbObj: sequelize,
     auctionHouseListingMdl,
     itemsMdl,
     charactersMdl,
-    auctionHouseBiddingMdl
+    auctionHouseBiddingMdl,
+    racesMdl,
+    classesMdl,
+    racesClassesMdl
 };
 
 
