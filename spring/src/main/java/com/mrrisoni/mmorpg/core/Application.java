@@ -1,4 +1,4 @@
-package core;
+package com.mrrisoni.mmorpg.core;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;

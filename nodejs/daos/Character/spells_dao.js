@@ -9,7 +9,7 @@ const _ = require('lodash');
 const { QueryTypes } = require('sequelize');
 
 function getUnlearnedSpells(characterId) {
-   // return new Promise((resolve, reject) => {
+   return new Promise((resolve, reject) => {
         let q = " SELECT sp.id AS spellId,specs.id AS specId,specs.title AS specTitle, sp.title, sp.rank_id,sp.cost_total FROM spells sp " +
             "JOIN class_specs specs ON sp.spec_id = specs.id " +
             "LEFT JOIN learned_spells lsp ON lsp.spell_id = sp.id AND lsp.character_id = '"+ characterId +"' " +
@@ -29,22 +29,14 @@ function getUnlearnedSpells(characterId) {
                 let tmp = {spec: spCat, spells:[]};
                 data.forEach(dt => {
                     if (dt.specTitle == spCat )   {
-                        tmp.spells.push(dt.title)
+                        tmp.spells.push({rank:dt.rank_id, title:dt.title, cost:dt.cost_total});
                     }
                 });
                 spellData.push(tmp);
             });
-
-            console.log(spellData);
+            resolve(spellData);
         });
-
-   /* }).then(results => {
-        resolve(results);
-    }).catch(err => {
-        console.log(err);
-        reject({errMsg: err, data: []});
     });
-*/
 }
 
 module.exports = {getUnlearnedSpells}

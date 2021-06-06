@@ -1,11 +1,7 @@
-package entity;
+package com.mrrisoni.mmorpg.entity;
 
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hibernate.SessionFactory;
-import org.hibernate.boot.MetadataSources;
-import org.hibernate.boot.registry.StandardServiceRegistry;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -25,29 +21,23 @@ public class HibernateUtil {
             configOverrides.put("javax.persistence.jdbc.password", System.getenv("SPRING_APP_DB_ECOMMERCE_PASSWD"));
             configOverrides.put("javax.persistence.jdbc.user", System.getenv("SPRING_APP_DB_ECOMMERCE_USR"));
 
-            String dbUrl = "jdbc:mysql://" + System.getenv("SPRING_APP_DB_ECOMMERCE_HOST") + ":3306/" + System.getenv("SPRING_APP_DB_ECOMMERCE_NAME") + "?serverTimezone=UTC";
+            String dbUrl = "jdbc:mysql://localhost:3306/mmorpg_db?serverTimezone=UTC";
             configOverrides.put("javax.persistence.jdbc.url", dbUrl);
             System.out.println("URL CON");
             System.out.println(dbUrl);
 
-            EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("commercifydb", configOverrides);
+            EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("mmorpgdb", configOverrides);
             em = entityManagerFactory.createEntityManager();
         }
         return em;
     }
-
-
 
     public static ObjectMapper getCustomMapper()
     {
         if (customMapper == null) {
             customMapper = new ObjectMapper();
             customMapper.disable(MapperFeature.DEFAULT_VIEW_INCLUSION);
-
         }
         return customMapper;
-
     }
-
-
 }
