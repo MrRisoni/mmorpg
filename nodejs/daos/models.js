@@ -219,6 +219,45 @@ const racesClassesMdl = sequelize.define('race_class_combo', {
     }
 );
 
+
+const recipesMdl = sequelize.define('recipe', {
+        id: {
+            type: Sequelize.INTEGER.UNSIGNED,
+            field: 'id',
+            autoIncrement: true,
+            primaryKey: true,
+        },
+        raceId: {
+            type: Sequelize.STRING,
+            field: 'title'
+        }
+    },
+    {
+        timestamps: false,
+        freezeTableName: true
+    }
+);
+
+const recipeMatsMdl = sequelize.define('recipe_mats', {
+        id: {
+            type: Sequelize.INTEGER.UNSIGNED,
+            field: 'id',
+            autoIncrement: true,
+            primaryKey: true,
+        },
+        raceId: {
+            type: Sequelize.INTEGER,
+            field: 'quantity'
+        }
+    },
+    {
+        timestamps: false,
+        freezeTableName: true
+    }
+);
+
+
+
 auctionHouseListingMdl.belongsTo(itemsMdl, {foreignKey: 'item_id', as: 'itemObj'});
 auctionHouseListingMdl.belongsTo(charactersMdl, {foreignKey: 'character_id', as: 'sellerObj'});
 
@@ -227,6 +266,8 @@ auctionHouseListingMdl.hasMany(auctionHouseBiddingMdl, {foreignKey: 'listing_id'
 racesClassesMdl.belongsTo(racesMdl, {foreignKey: 'race_id', as: 'raceObj'});
 racesClassesMdl.belongsTo(classesMdl, {foreignKey: 'class_id', as: 'classObj'});
 
+recipesMdl.hasMany(recipeMatsMdl, {foreignKey: 'recipe_id', as: 'recipeObj'});
+itemsMdl.belongsTo(recipeMatsMdl, {foreignKey: 'item_id', as: 'itemObj'});
 
 module.exports = {
     dbObj: sequelize,
@@ -236,7 +277,7 @@ module.exports = {
     auctionHouseBiddingMdl,
     racesMdl,
     classesMdl,
-    racesClassesMdl
+    racesClassesMdl,
+    recipesMdl,
+    recipeMatsMdl
 };
-
-
