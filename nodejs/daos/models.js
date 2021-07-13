@@ -256,6 +256,129 @@ const recipeMatsMdl = sequelize.define('recipe_mats', {
     }
 );
 
+const characterSlotsMdl = sequelize.define('characher_slots', {
+        id: {
+            type: Sequelize.INTEGER.UNSIGNED,
+            field: 'id',
+            autoIncrement: true,
+            primaryKey: true,
+        },
+        title: {
+            type: Sequelize.STRING,
+            field: 'title'
+        }
+    },
+    {
+        timestamps: false,
+        freezeTableName: true
+    }
+);
+
+
+
+const pvpCurrencyMdl = sequelize.define('pvp_currency', {
+        id: {
+            type: Sequelize.INTEGER.UNSIGNED,
+            field: 'id',
+            autoIncrement: true,
+            primaryKey: true,
+        },
+        title: {
+            type: Sequelize.STRING,
+            field: 'title'
+        }
+    },
+    {
+        timestamps: false,
+        freezeTableName: true
+    }
+);
+
+const pvpVendorsMdl = sequelize.define('pvp_vendors', {
+        id: {
+            type: Sequelize.INTEGER.UNSIGNED,
+            field: 'id',
+            autoIncrement: true,
+            primaryKey: true,
+        },
+        title: {
+            type: Sequelize.STRING,
+            field: 'title'
+        },
+        currencyId : {
+            type: Sequelize.INTEGER,
+            field: 'currency_id'
+        }
+    },
+    {
+        timestamps: false,
+        freezeTableName: true
+    }
+)
+
+const pvpVendorItemsMdl = sequelize.define('pvp_vendors_items', {
+        id: {
+            type: Sequelize.INTEGER.UNSIGNED,
+            field: 'id',
+            autoIncrement: true,
+            primaryKey: true,
+        },
+         rankId: {
+            type: Sequelize.INTEGER,
+            field: 'rank_id'
+        },
+        season: {
+            type: Sequelize.INTEGER,
+            field: 'season_id'
+        },
+        cost: {
+            type: Sequelize.INTEGER,
+            field: 'cost'
+        },
+    },
+    {
+        timestamps: false,
+        freezeTableName: true
+    }
+)
+
+
+const itemStatsMdl = sequelize.define('armor_item_stats', {
+    id: {
+        type: Sequelize.INTEGER.UNSIGNED,
+        field: 'id',
+        autoIncrement: true,
+        primaryKey: true,
+    },
+    val: {
+        type: Sequelize.INTEGER,
+        field: 'val'
+    }
+},
+{
+    timestamps: false,
+    freezeTableName: true
+}
+)
+
+
+const statsMdl = sequelize.define('stats', {
+    id: {
+        type: Sequelize.INTEGER.UNSIGNED,
+        field: 'id',
+        autoIncrement: true,
+        primaryKey: true,
+    },
+    title: {
+        type: Sequelize.STRING,
+        field: 'title'
+    }
+},
+{
+    timestamps: false,
+    freezeTableName: true
+}
+)
 
 
 auctionHouseListingMdl.belongsTo(itemsMdl, {foreignKey: 'item_id', as: 'itemObj'});
@@ -269,6 +392,13 @@ racesClassesMdl.belongsTo(classesMdl, {foreignKey: 'class_id', as: 'classObj'});
 recipesMdl.hasMany(recipeMatsMdl, {foreignKey: 'recipe_id', as: 'recipeObj'});
 itemsMdl.belongsTo(recipeMatsMdl, {foreignKey: 'item_id', as: 'itemObj'});
 
+// PvP Begin
+pvpVendorsMdl.hasMany(pvpVendorItemsMdl, {foreignKey: 'vendor_id', as: 'itemsList'});
+
+// PvP end
+
+
+
 module.exports = {
     dbObj: sequelize,
     auctionHouseListingMdl,
@@ -279,5 +409,13 @@ module.exports = {
     classesMdl,
     racesClassesMdl,
     recipesMdl,
-    recipeMatsMdl
+    recipeMatsMdl,
+    pvpCurrencyMdl,
+    characterSlotsMdl,
+    pvpVendorsMdl,
+    pvpVendorItemsMdl,
+    itemStatsMdl,
+    statsMdl
+
+
 };
