@@ -75,11 +75,11 @@ const auctionHouseListingMdl = sequelize.define('auction_listings', {
             primaryKey: true,
         },
         itemId: {
-            type: Sequelize.INTEGER.UNSIGNED,
+            type: Sequelize.INTEGER,
             field: 'item_id'
         },
         quantity: {
-            type: Sequelize.INTEGER.UNSIGNED,
+            type: Sequelize.INTEGER,
             field: 'quantity'
         },
         startingBidTotal: {
@@ -87,7 +87,7 @@ const auctionHouseListingMdl = sequelize.define('auction_listings', {
             field: 'starting_bid_total'
         },
         startingBidGold: {
-            type: Sequelize.INTEGER.UNSIGNED,
+            type: Sequelize.INTEGER,
             field: 'starting_bid_g'
         },
         startingBidSilver: {
@@ -394,6 +394,8 @@ itemsMdl.belongsTo(recipeMatsMdl, {foreignKey: 'item_id', as: 'itemObj'});
 
 // PvP Begin
 pvpVendorsMdl.hasMany(pvpVendorItemsMdl, {foreignKey: 'vendor_id', as: 'itemsList'});
+pvpVendorItemsMdl.belongsTo(itemsMdl, {foreignKey: 'item_id',primaryKey:'id', as: 'itemPvpObj'});
+itemsMdl.hasMany(itemStatsMdl, {foreignKey: 'item_id', as: 'itemStatsObj'});
 
 // PvP end
 

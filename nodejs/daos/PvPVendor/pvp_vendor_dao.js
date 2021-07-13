@@ -12,9 +12,24 @@ function  listCurrentSeasonHonorItems() {
                 {
                     model: dbObj.pvpVendorItemsMdl,
                     as: 'itemsList',
-                    where: {
-                        season:currentSeason
-                    },
+                    required: true,
+                    include: [
+                        {
+                            model: dbObj.itemsMdl,
+                            as: 'itemPvpObj',
+                            required: true,
+                            include: [
+                                {
+                                    model: dbObj.itemStatsMdl,
+                                    as: 'itemStatsObj',
+                                    required: true,
+                                    
+        
+                                }
+                            ]
+
+                        }
+                    ]
                 }
             ]
         }).then(results => {
