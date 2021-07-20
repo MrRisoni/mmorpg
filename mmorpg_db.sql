@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 12, 2021 at 05:31 AM
+-- Generation Time: Jul 20, 2021 at 05:41 AM
 -- Server version: 10.5.10-MariaDB
--- PHP Version: 7.4.20
+-- PHP Version: 7.4.21
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -40,6 +40,52 @@ INSERT INTO `accounts` (`id`, `username`) VALUES
 (1, 'shiar'),
 (2, 'kungen'),
 (3, 'mrgoblin');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `affixes`
+--
+
+CREATE TABLE `affixes` (
+  `id` tinyint(3) UNSIGNED NOT NULL,
+  `title` varchar(45) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `affixes`
+--
+
+INSERT INTO `affixes` (`id`, `title`) VALUES
+(1, 'Fortified'),
+(2, 'Inspiring'),
+(3, 'Grievous'),
+(4, 'Tormented'),
+(5, 'Tyrannical'),
+(6, 'Prideful');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `armor_item_stats`
+--
+
+CREATE TABLE `armor_item_stats` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `item_id` bigint(20) UNSIGNED NOT NULL,
+  `val` smallint(5) UNSIGNED NOT NULL,
+  `stat_id` tinyint(3) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `armor_item_stats`
+--
+
+INSERT INTO `armor_item_stats` (`id`, `item_id`, `val`, `stat_id`) VALUES
+(1, 1, 24, 4),
+(2, 2, 30, 4),
+(3, 3, 34, 4),
+(4, 4, 44, 4);
 
 -- --------------------------------------------------------
 
@@ -192,6 +238,27 @@ INSERT INTO `characters` (`id`, `account_id`, `realm_id`, `race_id`, `class_id`,
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `character_scoring`
+--
+
+CREATE TABLE `character_scoring` (
+  `id` bigint(10) UNSIGNED NOT NULL,
+  `character_id` bigint(10) UNSIGNED NOT NULL,
+  `season_id` bigint(10) UNSIGNED NOT NULL,
+  `score` decimal(10,2) NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `character_scoring`
+--
+
+INSERT INTO `character_scoring` (`id`, `character_id`, `season_id`, `score`, `updated_at`) VALUES
+(1, 4, 1, '456.45', '2021-07-20 05:13:36');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `classes`
 --
 
@@ -247,6 +314,72 @@ INSERT INTO `class_specs` (`id`, `class_id`, `title`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `difficulties`
+--
+
+CREATE TABLE `difficulties` (
+  `id` tinyint(3) UNSIGNED NOT NULL,
+  `title` varchar(25) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `difficulties`
+--
+
+INSERT INTO `difficulties` (`id`, `title`) VALUES
+(1, 'Normal'),
+(2, 'Heroic'),
+(3, 'Mythic'),
+(4, 'Mythic+');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `dungeons`
+--
+
+CREATE TABLE `dungeons` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `expansion_id` tinyint(3) UNSIGNED NOT NULL,
+  `title` varchar(45) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `dungeons`
+--
+
+INSERT INTO `dungeons` (`id`, `expansion_id`, `title`) VALUES
+(1, 2, 'Necrotic wake'),
+(2, 1, 'Spires of Ascension'),
+(3, 2, 'Plaguefall'),
+(4, 2, 'Theater of Pain'),
+(5, 2, 'Mist of Tirna Scithe'),
+(6, 2, 'De Other Side'),
+(7, 2, 'Sanguine Depths'),
+(8, 2, 'Halls of Atonement');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `expansions`
+--
+
+CREATE TABLE `expansions` (
+  `id` tinyint(3) UNSIGNED NOT NULL,
+  `title` varchar(45) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `expansions`
+--
+
+INSERT INTO `expansions` (`id`, `title`) VALUES
+(1, 'Battle For Azerorth'),
+(2, 'Shadowlands');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `factions`
 --
 
@@ -281,7 +414,11 @@ CREATE TABLE `items` (
 INSERT INTO `items` (`id`, `title`) VALUES
 (1, 'Arcanite Bar'),
 (2, 'Runecloth'),
-(3, 'Coarse Thread');
+(3, 'Coarse Thread'),
+(4, 'Sinful Gladiator'),
+(5, 'SInful Aspirant Axe'),
+(6, 'SInful Aspirant Sword'),
+(7, 'SInful Aspirant Helmet');
 
 -- --------------------------------------------------------
 
@@ -325,6 +462,26 @@ CREATE TABLE `npcs` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(80) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `party_roles`
+--
+
+CREATE TABLE `party_roles` (
+  `id` tinyint(3) UNSIGNED NOT NULL,
+  `title` varchar(12) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `party_roles`
+--
+
+INSERT INTO `party_roles` (`id`, `title`) VALUES
+(1, 'Tank'),
+(2, 'Healer'),
+(3, 'DPS');
 
 -- --------------------------------------------------------
 
@@ -421,12 +578,12 @@ INSERT INTO `pvp_vendors` (`id`, `title`, `currency_id`) VALUES
 
 CREATE TABLE `pvp_vendors_items` (
   `id` bigint(20) UNSIGNED NOT NULL,
+  `item_id` bigint(20) UNSIGNED NOT NULL DEFAULT 1,
   `class_spec_id` tinyint(3) UNSIGNED NOT NULL,
   `vendor_id` tinyint(3) UNSIGNED NOT NULL,
   `season_id` bigint(20) UNSIGNED NOT NULL DEFAULT 1,
   `slot_id` tinyint(3) UNSIGNED NOT NULL,
   `rank_id` tinyint(3) UNSIGNED NOT NULL DEFAULT 1,
-  `title` varchar(25) NOT NULL,
   `cost` smallint(5) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -434,34 +591,11 @@ CREATE TABLE `pvp_vendors_items` (
 -- Dumping data for table `pvp_vendors_items`
 --
 
-INSERT INTO `pvp_vendors_items` (`id`, `class_spec_id`, `vendor_id`, `season_id`, `slot_id`, `rank_id`, `title`, `cost`) VALUES
-(1, 1, 1, 1, 15, 1, 'Sinfull Aspirant', 1250),
-(2, 1, 1, 1, 15, 2, 'Sinfull Aspirant', 0),
-(3, 4, 2, 1, 13, 1, 'Gladiator Ring', 525),
-(4, 4, 2, 1, 13, 2, 'Gladiator Ring', 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pvp_vendor_item_stats`
---
-
-CREATE TABLE `pvp_vendor_item_stats` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `item_id` bigint(20) UNSIGNED NOT NULL,
-  `val` smallint(5) UNSIGNED NOT NULL,
-  `stat_id` tinyint(3) UNSIGNED NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `pvp_vendor_item_stats`
---
-
-INSERT INTO `pvp_vendor_item_stats` (`id`, `item_id`, `val`, `stat_id`) VALUES
-(1, 1, 24, 4),
-(2, 2, 30, 4),
-(3, 3, 34, 4),
-(4, 4, 44, 4);
+INSERT INTO `pvp_vendors_items` (`id`, `item_id`, `class_spec_id`, `vendor_id`, `season_id`, `slot_id`, `rank_id`, `cost`) VALUES
+(1, 4, 1, 1, 1, 15, 1, 1250),
+(2, 5, 1, 1, 1, 15, 2, 0),
+(3, 6, 4, 2, 1, 13, 1, 525),
+(4, 7, 4, 2, 1, 13, 2, 0);
 
 -- --------------------------------------------------------
 
@@ -559,6 +693,75 @@ INSERT INTO `race_class_combo` (`id`, `race_id`, `class_id`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `raids`
+--
+
+CREATE TABLE `raids` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `expansion_id` tinyint(3) UNSIGNED NOT NULL,
+  `title` varchar(45) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `raids`
+--
+
+INSERT INTO `raids` (`id`, `expansion_id`, `title`) VALUES
+(1, 2, 'Castle Nathria'),
+(2, 2, 'Sanctum of Domination');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `raid_bosses`
+--
+
+CREATE TABLE `raid_bosses` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `raid_id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(45) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `raid_bosses`
+--
+
+INSERT INTO `raid_bosses` (`id`, `raid_id`, `title`) VALUES
+(1, 1, 'Huntsman Altimor'),
+(2, 1, 'Hungering Destroyer'),
+(3, 1, 'Innerva'),
+(4, 1, 'Shriekwing'),
+(5, 1, 'Sludgefist'),
+(6, 1, 'Stone Legion Generals'),
+(7, 1, 'Kael\'thas Sunstrider'),
+(8, 1, 'Artificer Xymox'),
+(9, 1, 'The Council of Blood'),
+(10, 1, 'Sire Denathrius');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `raid_bosses_killed`
+--
+
+CREATE TABLE `raid_bosses_killed` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `character_id` bigint(20) UNSIGNED NOT NULL,
+  `raid_boss_id` bigint(20) UNSIGNED NOT NULL,
+  `difficulty_id` tinyint(3) UNSIGNED NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `raid_bosses_killed`
+--
+
+INSERT INTO `raid_bosses_killed` (`id`, `character_id`, `raid_boss_id`, `difficulty_id`, `created_at`) VALUES
+(1, 4, 8, 1, '2021-07-20 05:00:17');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `realms`
 --
 
@@ -624,6 +827,7 @@ INSERT INTO `recipe_mats` (`id`, `recipe_id`, `item_id`, `quantity`) VALUES
 
 CREATE TABLE `seasons` (
   `id` bigint(20) UNSIGNED NOT NULL,
+  `expansion_id` tinyint(3) UNSIGNED NOT NULL,
   `title` varchar(35) NOT NULL,
   `starts_at` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -632,8 +836,90 @@ CREATE TABLE `seasons` (
 -- Dumping data for table `seasons`
 --
 
-INSERT INTO `seasons` (`id`, `title`, `starts_at`) VALUES
-(1, 'Season 1', '2020-12-01');
+INSERT INTO `seasons` (`id`, `expansion_id`, `title`, `starts_at`) VALUES
+(1, 2, 'Season 1', '2020-12-01');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sl_character_covenants`
+--
+
+CREATE TABLE `sl_character_covenants` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `character_id` bigint(20) UNSIGNED NOT NULL,
+  `covenant_id` tinyint(3) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `sl_character_covenants`
+--
+
+INSERT INTO `sl_character_covenants` (`id`, `character_id`, `covenant_id`) VALUES
+(1, 4, 4);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sl_covenants`
+--
+
+CREATE TABLE `sl_covenants` (
+  `id` tinyint(3) UNSIGNED NOT NULL,
+  `title` varchar(15) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `sl_covenants`
+--
+
+INSERT INTO `sl_covenants` (`id`, `title`) VALUES
+(1, 'Kyrian'),
+(2, 'Necrolords'),
+(3, 'Night Fae'),
+(4, 'Venthyr');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sl_covenant_soulbinds`
+--
+
+CREATE TABLE `sl_covenant_soulbinds` (
+  `id` tinyint(3) UNSIGNED NOT NULL,
+  `covenant_id` tinyint(3) UNSIGNED NOT NULL,
+  `title` varchar(45) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `sl_covenant_soulbinds`
+--
+
+INSERT INTO `sl_covenant_soulbinds` (`id`, `covenant_id`, `title`) VALUES
+(1, 1, 'Kleia'),
+(2, 1, 'Pelagos'),
+(3, 4, 'Nadja'),
+(4, 4, 'Theothar');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sl_soulbinds_characters`
+--
+
+CREATE TABLE `sl_soulbinds_characters` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `character_id` bigint(20) UNSIGNED NOT NULL,
+  `soulbind_id` tinyint(3) UNSIGNED NOT NULL,
+  `spec_id` tinyint(3) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `sl_soulbinds_characters`
+--
+
+INSERT INTO `sl_soulbinds_characters` (`id`, `character_id`, `soulbind_id`, `spec_id`) VALUES
+(1, 4, 4, 7);
 
 -- --------------------------------------------------------
 
@@ -699,6 +985,20 @@ ALTER TABLE `accounts`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `affixes`
+--
+ALTER TABLE `affixes`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `armor_item_stats`
+--
+ALTER TABLE `armor_item_stats`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `stat_id` (`stat_id`),
+  ADD KEY `armor_item_stats_ibfk_1` (`item_id`);
+
+--
 -- Indexes for table `auction_bids_history`
 --
 ALTER TABLE `auction_bids_history`
@@ -739,6 +1039,14 @@ ALTER TABLE `characters`
   ADD KEY `account_id` (`account_id`);
 
 --
+-- Indexes for table `character_scoring`
+--
+ALTER TABLE `character_scoring`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `character_id` (`character_id`),
+  ADD KEY `season_id` (`season_id`);
+
+--
 -- Indexes for table `classes`
 --
 ALTER TABLE `classes`
@@ -752,6 +1060,25 @@ ALTER TABLE `class_specs`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `class_id_2` (`class_id`,`title`),
   ADD KEY `class_id` (`class_id`);
+
+--
+-- Indexes for table `difficulties`
+--
+ALTER TABLE `difficulties`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dungeons`
+--
+ALTER TABLE `dungeons`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `expansion_id` (`expansion_id`);
+
+--
+-- Indexes for table `expansions`
+--
+ALTER TABLE `expansions`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `factions`
@@ -783,6 +1110,12 @@ ALTER TABLE `mobs`
 -- Indexes for table `npcs`
 --
 ALTER TABLE `npcs`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `party_roles`
+--
+ALTER TABLE `party_roles`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -821,15 +1154,8 @@ ALTER TABLE `pvp_vendors_items`
   ADD KEY `slot_id` (`slot_id`),
   ADD KEY `vendor_id` (`vendor_id`),
   ADD KEY `class_spec_id` (`class_spec_id`),
-  ADD KEY `season_id` (`season_id`);
-
---
--- Indexes for table `pvp_vendor_item_stats`
---
-ALTER TABLE `pvp_vendor_item_stats`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `item_id` (`item_id`),
-  ADD KEY `stat_id` (`stat_id`);
+  ADD KEY `season_id` (`season_id`),
+  ADD KEY `item_id` (`item_id`);
 
 --
 -- Indexes for table `races`
@@ -847,6 +1173,30 @@ ALTER TABLE `race_class_combo`
   ADD UNIQUE KEY `race_id_2` (`race_id`,`class_id`),
   ADD KEY `race_id` (`race_id`),
   ADD KEY `combo_id` (`class_id`);
+
+--
+-- Indexes for table `raids`
+--
+ALTER TABLE `raids`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `expansion_id` (`expansion_id`);
+
+--
+-- Indexes for table `raid_bosses`
+--
+ALTER TABLE `raid_bosses`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `raid_id` (`raid_id`);
+
+--
+-- Indexes for table `raid_bosses_killed`
+--
+ALTER TABLE `raid_bosses_killed`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `character_id` (`character_id`),
+  ADD KEY `raid_id` (`raid_boss_id`),
+  ADD KEY `difficulty_id` (`difficulty_id`),
+  ADD KEY `raid_boss_id` (`raid_boss_id`);
 
 --
 -- Indexes for table `realms`
@@ -873,7 +1223,38 @@ ALTER TABLE `recipe_mats`
 -- Indexes for table `seasons`
 --
 ALTER TABLE `seasons`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `expansion_id` (`expansion_id`);
+
+--
+-- Indexes for table `sl_character_covenants`
+--
+ALTER TABLE `sl_character_covenants`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `character_id` (`character_id`),
+  ADD KEY `covenant_id` (`covenant_id`);
+
+--
+-- Indexes for table `sl_covenants`
+--
+ALTER TABLE `sl_covenants`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `sl_covenant_soulbinds`
+--
+ALTER TABLE `sl_covenant_soulbinds`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `covenant_id` (`covenant_id`);
+
+--
+-- Indexes for table `sl_soulbinds_characters`
+--
+ALTER TABLE `sl_soulbinds_characters`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `character_id` (`character_id`),
+  ADD KEY `soulbind_id` (`soulbind_id`),
+  ADD KEY `spec_id` (`spec_id`);
 
 --
 -- Indexes for table `spells`
@@ -899,6 +1280,18 @@ ALTER TABLE `stats`
 --
 ALTER TABLE `accounts`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `affixes`
+--
+ALTER TABLE `affixes`
+  MODIFY `id` tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `armor_item_stats`
+--
+ALTER TABLE `armor_item_stats`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `auction_bids_history`
@@ -931,6 +1324,12 @@ ALTER TABLE `characters`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT for table `character_scoring`
+--
+ALTER TABLE `character_scoring`
+  MODIFY `id` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `classes`
 --
 ALTER TABLE `classes`
@@ -943,6 +1342,24 @@ ALTER TABLE `class_specs`
   MODIFY `id` tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
+-- AUTO_INCREMENT for table `difficulties`
+--
+ALTER TABLE `difficulties`
+  MODIFY `id` tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `dungeons`
+--
+ALTER TABLE `dungeons`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `expansions`
+--
+ALTER TABLE `expansions`
+  MODIFY `id` tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `factions`
 --
 ALTER TABLE `factions`
@@ -952,7 +1369,7 @@ ALTER TABLE `factions`
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `learned_spells`
@@ -971,6 +1388,12 @@ ALTER TABLE `mobs`
 --
 ALTER TABLE `npcs`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `party_roles`
+--
+ALTER TABLE `party_roles`
+  MODIFY `id` tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `profession_skills`
@@ -1003,12 +1426,6 @@ ALTER TABLE `pvp_vendors_items`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `pvp_vendor_item_stats`
---
-ALTER TABLE `pvp_vendor_item_stats`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
 -- AUTO_INCREMENT for table `races`
 --
 ALTER TABLE `races`
@@ -1019,6 +1436,24 @@ ALTER TABLE `races`
 --
 ALTER TABLE `race_class_combo`
   MODIFY `id` tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+
+--
+-- AUTO_INCREMENT for table `raids`
+--
+ALTER TABLE `raids`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `raid_bosses`
+--
+ALTER TABLE `raid_bosses`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `raid_bosses_killed`
+--
+ALTER TABLE `raid_bosses_killed`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `realms`
@@ -1045,6 +1480,30 @@ ALTER TABLE `seasons`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `sl_character_covenants`
+--
+ALTER TABLE `sl_character_covenants`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `sl_covenants`
+--
+ALTER TABLE `sl_covenants`
+  MODIFY `id` tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `sl_covenant_soulbinds`
+--
+ALTER TABLE `sl_covenant_soulbinds`
+  MODIFY `id` tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `sl_soulbinds_characters`
+--
+ALTER TABLE `sl_soulbinds_characters`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `spells`
 --
 ALTER TABLE `spells`
@@ -1059,6 +1518,13 @@ ALTER TABLE `stats`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `armor_item_stats`
+--
+ALTER TABLE `armor_item_stats`
+  ADD CONSTRAINT `armor_item_stats_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `items` (`id`),
+  ADD CONSTRAINT `armor_item_stats_ibfk_2` FOREIGN KEY (`stat_id`) REFERENCES `stats` (`id`);
 
 --
 -- Constraints for table `auction_bids_history`
@@ -1085,10 +1551,23 @@ ALTER TABLE `characters`
   ADD CONSTRAINT `characters_ibfk_4` FOREIGN KEY (`account_id`) REFERENCES `accounts` (`id`);
 
 --
+-- Constraints for table `character_scoring`
+--
+ALTER TABLE `character_scoring`
+  ADD CONSTRAINT `character_scoring_ibfk_1` FOREIGN KEY (`character_id`) REFERENCES `characters` (`id`),
+  ADD CONSTRAINT `character_scoring_ibfk_2` FOREIGN KEY (`season_id`) REFERENCES `seasons` (`id`);
+
+--
 -- Constraints for table `class_specs`
 --
 ALTER TABLE `class_specs`
   ADD CONSTRAINT `class_specs_ibfk_1` FOREIGN KEY (`class_id`) REFERENCES `classes` (`id`);
+
+--
+-- Constraints for table `dungeons`
+--
+ALTER TABLE `dungeons`
+  ADD CONSTRAINT `dungeons_ibfk_1` FOREIGN KEY (`expansion_id`) REFERENCES `expansions` (`id`);
 
 --
 -- Constraints for table `learned_spells`
@@ -1118,14 +1597,8 @@ ALTER TABLE `pvp_vendors_items`
   ADD CONSTRAINT `pvp_vendors_items_ibfk_1` FOREIGN KEY (`slot_id`) REFERENCES `characher_slots` (`id`),
   ADD CONSTRAINT `pvp_vendors_items_ibfk_2` FOREIGN KEY (`vendor_id`) REFERENCES `pvp_vendors` (`id`),
   ADD CONSTRAINT `pvp_vendors_items_ibfk_3` FOREIGN KEY (`class_spec_id`) REFERENCES `class_specs` (`id`),
-  ADD CONSTRAINT `pvp_vendors_items_ibfk_4` FOREIGN KEY (`season_id`) REFERENCES `seasons` (`id`);
-
---
--- Constraints for table `pvp_vendor_item_stats`
---
-ALTER TABLE `pvp_vendor_item_stats`
-  ADD CONSTRAINT `pvp_vendor_item_stats_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `pvp_vendors_items` (`id`),
-  ADD CONSTRAINT `pvp_vendor_item_stats_ibfk_2` FOREIGN KEY (`stat_id`) REFERENCES `stats` (`id`);
+  ADD CONSTRAINT `pvp_vendors_items_ibfk_4` FOREIGN KEY (`season_id`) REFERENCES `seasons` (`id`),
+  ADD CONSTRAINT `pvp_vendors_items_ibfk_5` FOREIGN KEY (`item_id`) REFERENCES `items` (`id`);
 
 --
 -- Constraints for table `races`
@@ -1141,11 +1614,58 @@ ALTER TABLE `race_class_combo`
   ADD CONSTRAINT `race_class_combo_ibfk_2` FOREIGN KEY (`class_id`) REFERENCES `classes` (`id`);
 
 --
+-- Constraints for table `raids`
+--
+ALTER TABLE `raids`
+  ADD CONSTRAINT `raids_ibfk_1` FOREIGN KEY (`expansion_id`) REFERENCES `expansions` (`id`);
+
+--
+-- Constraints for table `raid_bosses`
+--
+ALTER TABLE `raid_bosses`
+  ADD CONSTRAINT `raid_bosses_ibfk_1` FOREIGN KEY (`raid_id`) REFERENCES `raids` (`id`);
+
+--
+-- Constraints for table `raid_bosses_killed`
+--
+ALTER TABLE `raid_bosses_killed`
+  ADD CONSTRAINT `raid_bosses_killed_ibfk_1` FOREIGN KEY (`character_id`) REFERENCES `characters` (`id`),
+  ADD CONSTRAINT `raid_bosses_killed_ibfk_2` FOREIGN KEY (`difficulty_id`) REFERENCES `difficulties` (`id`),
+  ADD CONSTRAINT `raid_bosses_killed_ibfk_3` FOREIGN KEY (`raid_boss_id`) REFERENCES `raid_bosses` (`id`);
+
+--
 -- Constraints for table `recipe_mats`
 --
 ALTER TABLE `recipe_mats`
   ADD CONSTRAINT `recipe_mats_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `items` (`id`),
   ADD CONSTRAINT `recipe_mats_ibfk_2` FOREIGN KEY (`recipe_id`) REFERENCES `recipe` (`id`);
+
+--
+-- Constraints for table `seasons`
+--
+ALTER TABLE `seasons`
+  ADD CONSTRAINT `seasons_ibfk_1` FOREIGN KEY (`expansion_id`) REFERENCES `expansions` (`id`);
+
+--
+-- Constraints for table `sl_character_covenants`
+--
+ALTER TABLE `sl_character_covenants`
+  ADD CONSTRAINT `sl_character_covenants_ibfk_1` FOREIGN KEY (`character_id`) REFERENCES `characters` (`id`),
+  ADD CONSTRAINT `sl_character_covenants_ibfk_2` FOREIGN KEY (`covenant_id`) REFERENCES `sl_covenants` (`id`);
+
+--
+-- Constraints for table `sl_covenant_soulbinds`
+--
+ALTER TABLE `sl_covenant_soulbinds`
+  ADD CONSTRAINT `sl_covenant_soulbinds_ibfk_1` FOREIGN KEY (`covenant_id`) REFERENCES `sl_covenants` (`id`);
+
+--
+-- Constraints for table `sl_soulbinds_characters`
+--
+ALTER TABLE `sl_soulbinds_characters`
+  ADD CONSTRAINT `sl_soulbinds_characters_ibfk_1` FOREIGN KEY (`character_id`) REFERENCES `characters` (`id`),
+  ADD CONSTRAINT `sl_soulbinds_characters_ibfk_2` FOREIGN KEY (`soulbind_id`) REFERENCES `sl_covenant_soulbinds` (`id`),
+  ADD CONSTRAINT `sl_soulbinds_characters_ibfk_3` FOREIGN KEY (`spec_id`) REFERENCES `class_specs` (`id`);
 
 --
 -- Constraints for table `spells`
