@@ -1,6 +1,7 @@
-module.exports = function (sequelize, DataTypes) {
+const Sequelize = require('sequelize');
 
-    return sequelize.define('auction_bids_history', {
+module.exports = function (dbObj) {
+    return  dbObj.define('auction_bids_history', {
             id: {
                 type: Sequelize.INTEGER.UNSIGNED,
                 field: 'id',
@@ -32,5 +33,5 @@ module.exports = function (sequelize, DataTypes) {
             timestamps: false,
             freezeTableName: true
         }
-    )
+    );
 }

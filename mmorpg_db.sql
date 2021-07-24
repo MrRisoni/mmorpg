@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 20, 2021 at 05:41 AM
+-- Generation Time: Jul 24, 2021 at 08:59 AM
 -- Server version: 10.5.10-MariaDB
 -- PHP Version: 7.4.21
 
@@ -63,6 +63,43 @@ INSERT INTO `affixes` (`id`, `title`) VALUES
 (4, 'Tormented'),
 (5, 'Tyrannical'),
 (6, 'Prideful');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `armory`
+--
+
+CREATE TABLE `armory` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `character_id` bigint(20) UNSIGNED NOT NULL,
+  `slot_id` tinyint(3) UNSIGNED NOT NULL,
+  `item_id` bigint(20) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `armory_enchants`
+--
+
+CREATE TABLE `armory_enchants` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `armory_id` bigint(20) UNSIGNED NOT NULL,
+  `enchant_id` bigint(20) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `armory_gems`
+--
+
+CREATE TABLE `armory_gems` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `armory_id` bigint(20) UNSIGNED NOT NULL,
+  `gem_id` bigint(20) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -361,6 +398,24 @@ INSERT INTO `dungeons` (`id`, `expansion_id`, `title`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `enchants`
+--
+
+CREATE TABLE `enchants` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(45) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `enchants`
+--
+
+INSERT INTO `enchants` (`id`, `title`) VALUES
+(1, '+ 15 Haste');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `expansions`
 --
 
@@ -395,6 +450,24 @@ CREATE TABLE `factions` (
 INSERT INTO `factions` (`id`, `title`) VALUES
 (1, 'Horde'),
 (2, 'Alliance');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `gems`
+--
+
+CREATE TABLE `gems` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(45) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `gems`
+--
+
+INSERT INTO `gems` (`id`, `title`) VALUES
+(1, '+20 Haste');
 
 -- --------------------------------------------------------
 
@@ -882,6 +955,25 @@ INSERT INTO `sl_covenants` (`id`, `title`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `sl_covenant_conduits`
+--
+
+CREATE TABLE `sl_covenant_conduits` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `covenant_id` tinyint(3) UNSIGNED NOT NULL,
+  `title` varchar(25) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `sl_covenant_conduits`
+--
+
+INSERT INTO `sl_covenant_conduits` (`id`, `covenant_id`, `title`) VALUES
+(1, 1, 'test');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `sl_covenant_soulbinds`
 --
 
@@ -900,6 +992,18 @@ INSERT INTO `sl_covenant_soulbinds` (`id`, `covenant_id`, `title`) VALUES
 (2, 1, 'Pelagos'),
 (3, 4, 'Nadja'),
 (4, 4, 'Theothar');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sl_socketed_conduits`
+--
+
+CREATE TABLE `sl_socketed_conduits` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `conduit_id` bigint(20) UNSIGNED NOT NULL,
+  `character_id` bigint(20) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -991,6 +1095,31 @@ ALTER TABLE `affixes`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `armory`
+--
+ALTER TABLE `armory`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `character_id` (`character_id`),
+  ADD KEY `slot_id` (`slot_id`),
+  ADD KEY `item_id` (`item_id`);
+
+--
+-- Indexes for table `armory_enchants`
+--
+ALTER TABLE `armory_enchants`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `armory_id` (`armory_id`),
+  ADD KEY `enchant_id` (`enchant_id`);
+
+--
+-- Indexes for table `armory_gems`
+--
+ALTER TABLE `armory_gems`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `armory_id` (`armory_id`),
+  ADD KEY `gem_id` (`gem_id`);
+
+--
 -- Indexes for table `armor_item_stats`
 --
 ALTER TABLE `armor_item_stats`
@@ -1075,6 +1204,12 @@ ALTER TABLE `dungeons`
   ADD KEY `expansion_id` (`expansion_id`);
 
 --
+-- Indexes for table `enchants`
+--
+ALTER TABLE `enchants`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `expansions`
 --
 ALTER TABLE `expansions`
@@ -1084,6 +1219,12 @@ ALTER TABLE `expansions`
 -- Indexes for table `factions`
 --
 ALTER TABLE `factions`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `gems`
+--
+ALTER TABLE `gems`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1241,11 +1382,26 @@ ALTER TABLE `sl_covenants`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `sl_covenant_conduits`
+--
+ALTER TABLE `sl_covenant_conduits`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `covenant_id` (`covenant_id`);
+
+--
 -- Indexes for table `sl_covenant_soulbinds`
 --
 ALTER TABLE `sl_covenant_soulbinds`
   ADD PRIMARY KEY (`id`),
   ADD KEY `covenant_id` (`covenant_id`);
+
+--
+-- Indexes for table `sl_socketed_conduits`
+--
+ALTER TABLE `sl_socketed_conduits`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `conduit_id` (`conduit_id`),
+  ADD KEY `character_id` (`character_id`);
 
 --
 -- Indexes for table `sl_soulbinds_characters`
@@ -1286,6 +1442,24 @@ ALTER TABLE `accounts`
 --
 ALTER TABLE `affixes`
   MODIFY `id` tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `armory`
+--
+ALTER TABLE `armory`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `armory_enchants`
+--
+ALTER TABLE `armory_enchants`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `armory_gems`
+--
+ALTER TABLE `armory_gems`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `armor_item_stats`
@@ -1354,6 +1528,12 @@ ALTER TABLE `dungeons`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
+-- AUTO_INCREMENT for table `enchants`
+--
+ALTER TABLE `enchants`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `expansions`
 --
 ALTER TABLE `expansions`
@@ -1364,6 +1544,12 @@ ALTER TABLE `expansions`
 --
 ALTER TABLE `factions`
   MODIFY `id` tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `gems`
+--
+ALTER TABLE `gems`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `items`
@@ -1492,10 +1678,22 @@ ALTER TABLE `sl_covenants`
   MODIFY `id` tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT for table `sl_covenant_conduits`
+--
+ALTER TABLE `sl_covenant_conduits`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `sl_covenant_soulbinds`
 --
 ALTER TABLE `sl_covenant_soulbinds`
   MODIFY `id` tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `sl_socketed_conduits`
+--
+ALTER TABLE `sl_socketed_conduits`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `sl_soulbinds_characters`
@@ -1518,6 +1716,28 @@ ALTER TABLE `stats`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `armory`
+--
+ALTER TABLE `armory`
+  ADD CONSTRAINT `armory_ibfk_1` FOREIGN KEY (`character_id`) REFERENCES `characters` (`id`),
+  ADD CONSTRAINT `armory_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `items` (`id`),
+  ADD CONSTRAINT `armory_ibfk_3` FOREIGN KEY (`slot_id`) REFERENCES `characher_slots` (`id`);
+
+--
+-- Constraints for table `armory_enchants`
+--
+ALTER TABLE `armory_enchants`
+  ADD CONSTRAINT `armory_enchants_ibfk_1` FOREIGN KEY (`armory_id`) REFERENCES `armory` (`id`),
+  ADD CONSTRAINT `armory_enchants_ibfk_2` FOREIGN KEY (`enchant_id`) REFERENCES `enchants` (`id`);
+
+--
+-- Constraints for table `armory_gems`
+--
+ALTER TABLE `armory_gems`
+  ADD CONSTRAINT `armory_gems_ibfk_1` FOREIGN KEY (`armory_id`) REFERENCES `armory` (`id`),
+  ADD CONSTRAINT `armory_gems_ibfk_2` FOREIGN KEY (`gem_id`) REFERENCES `gems` (`id`);
 
 --
 -- Constraints for table `armor_item_stats`
@@ -1654,10 +1874,23 @@ ALTER TABLE `sl_character_covenants`
   ADD CONSTRAINT `sl_character_covenants_ibfk_2` FOREIGN KEY (`covenant_id`) REFERENCES `sl_covenants` (`id`);
 
 --
+-- Constraints for table `sl_covenant_conduits`
+--
+ALTER TABLE `sl_covenant_conduits`
+  ADD CONSTRAINT `sl_covenant_conduits_ibfk_1` FOREIGN KEY (`covenant_id`) REFERENCES `sl_covenants` (`id`);
+
+--
 -- Constraints for table `sl_covenant_soulbinds`
 --
 ALTER TABLE `sl_covenant_soulbinds`
   ADD CONSTRAINT `sl_covenant_soulbinds_ibfk_1` FOREIGN KEY (`covenant_id`) REFERENCES `sl_covenants` (`id`);
+
+--
+-- Constraints for table `sl_socketed_conduits`
+--
+ALTER TABLE `sl_socketed_conduits`
+  ADD CONSTRAINT `sl_socketed_conduits_ibfk_1` FOREIGN KEY (`character_id`) REFERENCES `characters` (`id`),
+  ADD CONSTRAINT `sl_socketed_conduits_ibfk_2` FOREIGN KEY (`conduit_id`) REFERENCES `sl_covenant_conduits` (`id`);
 
 --
 -- Constraints for table `sl_soulbinds_characters`

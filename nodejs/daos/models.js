@@ -67,102 +67,7 @@ const charactersMdl = sequelize.define('characters', {
 );
 
 
-const auctionHouseListingMdl = sequelize.define('auction_listings', {
-        id: {
-            type: Sequelize.INTEGER.UNSIGNED,
-            field: 'id',
-            autoIncrement: true,
-            primaryKey: true,
-        },
-        itemId: {
-            type: Sequelize.INTEGER,
-            field: 'item_id'
-        },
-        quantity: {
-            type: Sequelize.INTEGER,
-            field: 'quantity'
-        },
-        startingBidTotal: {
-            type: Sequelize.FLOAT,
-            field: 'starting_bid_total'
-        },
-        startingBidGold: {
-            type: Sequelize.INTEGER,
-            field: 'starting_bid_g'
-        },
-        startingBidSilver: {
-            type: Sequelize.INTEGER.UNSIGNED,
-            field: 'starting_bid_s'
-        },
-        startingBidCopper: {
-            type: Sequelize.INTEGER.UNSIGNED,
-            field: 'starting_bid_c'
-        },
-        buyoutTotal: {
-            type: Sequelize.FLOAT,
-            field: 'buyout_total'
-        },
-        buyoutGold: {
-            type: Sequelize.INTEGER.UNSIGNED,
-            field: 'buyout_g'
-        },
-        buyoutSilver: {
-            type: Sequelize.INTEGER.UNSIGNED,
-            field: 'buyout_s'
-        },
-        buyoutCopper: {
-            type: Sequelize.INTEGER.UNSIGNED,
-            field: 'buyout_c'
-        },
-        delisted: {
-            type: Sequelize.BOOLEAN,
-            field: 'delisted'
-        },
-        sold: {
-            type: Sequelize.BOOLEAN,
-            field: 'sold'
-        }
-    },
-    {
-        timestamps: false,
-        freezeTableName: true
-    }
-);
 
-
-const auctionHouseBiddingMdl = sequelize.define('auction_bids_history', {
-        id: {
-            type: Sequelize.INTEGER.UNSIGNED,
-            field: 'id',
-            autoIncrement: true,
-            primaryKey: true,
-        },
-        listingId: {
-            type: Sequelize.INTEGER.UNSIGNED,
-            field: 'listing_id'
-        },
-        bidTotal: {
-            type: Sequelize.FLOAT,
-            field: 'bid_total'
-        },
-        bidGold: {
-            type: Sequelize.INTEGER.UNSIGNED,
-            field: 'bid_g'
-        },
-        bidSilver: {
-            type: Sequelize.INTEGER.UNSIGNED,
-            field: 'bid_s'
-        },
-        bidCopper: {
-            type: Sequelize.INTEGER.UNSIGNED,
-            field: 'bid_c'
-        }
-    },
-    {
-        timestamps: false,
-        freezeTableName: true
-    }
-);
 
 
 const racesMdl = sequelize.define('races', {
@@ -381,16 +286,21 @@ const statsMdl = sequelize.define('stats', {
 )
 
 
+var enchantsMdl = require("./db/buffs/enchants")(sequelize);
+var auctionHouseListingMdl = require("./db/ah/ah_listing")(sequelize);
+var auctionHouseBiddingMdl = require("./db/ah/ah_bid")(sequelize);
+
 auctionHouseListingMdl.belongsTo(itemsMdl, {foreignKey: 'item_id', as: 'itemObj'});
 auctionHouseListingMdl.belongsTo(charactersMdl, {foreignKey: 'character_id', as: 'sellerObj'});
 
 auctionHouseListingMdl.hasMany(auctionHouseBiddingMdl, {foreignKey: 'listing_id', as: 'bidsListObj'});
 
+
 racesClassesMdl.belongsTo(racesMdl, {foreignKey: 'race_id', as: 'raceObj'});
 racesClassesMdl.belongsTo(classesMdl, {foreignKey: 'class_id', as: 'classObj'});
 
 recipesMdl.hasMany(recipeMatsMdl, {foreignKey: 'recipe_id', as: 'recipeObj'});
-itemsMdl.belongsTo(recipeMatsMdl, {foreignKey: 'item_id', as: 'itemObj'});
+//itemsMdl.belongsTo(recipeMatsMdl, {foreignKey: 'item_id', as: 'itemMatObj'});
 
 // PvP Begin
 pvpVendorsMdl.hasMany(pvpVendorItemsMdl, {foreignKey: 'vendor_id', as: 'itemsList'});
@@ -417,7 +327,8 @@ module.exports = {
     pvpVendorsMdl,
     pvpVendorItemsMdl,
     itemStatsMdl,
-    statsMdl
+    statsMdl,
+    enchantsMdl
 
 
 };
