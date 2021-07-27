@@ -51,6 +51,31 @@ const racesClassesMdl = sequelize.define('race_class_combo', {
 var enchantsMdl = require("./db/buffs/enchants")(sequelize);
 var auctionHouseListingMdl = require("./db/ah/ah_listing")(sequelize);
 var auctionHouseBiddingMdl = require("./db/ah/ah_bid")(sequelize);
+var itemsMdl = require("./db/armory/items")(sequelize);
+var charactersMdl = require("./db/armory/characters")(sequelize);
+var racesMdl = require("./db/armory/races")(sequelize);
+var classesMdl = require("./db/armory/classes")(sequelize);
+var characterSlotsMdl = require("./db/armory/character_slots")(sequelize);
+var statsMdl = require("./db/armory/stats")(sequelize);
+
+
+var recipesMdl = require("./db/professions/recipes")(sequelize);
+var recipeMatsMdl = require("./db/professions/recipe_mats")(sequelize);
+
+var pvpVendorsMdl = require("./db/pvp/pvp_vendors")(sequelize);
+var pvpVendorItemsMdl = require("./db/pvp/pvp_vendor_item")(sequelize);
+var itemStatsMdl = require("./db/armory/item_stats")(sequelize);
+var pvpCurrencyMdl = require("./db/pvp/pvp_currency")(sequelize);
+
+
+
+// shadowlands begin
+var SL_CovenantsMdl = require("./db/expansions/shadowlands/covenants")(sequelize);
+var SL_SoulbindsMdl=  require("./db/expansions/shadowlands/soulbinds")(sequelize);
+var SL_ConduitsMdl =  require("./db/expansions/shadowlands/conduits")(sequelize);
+// shadowlands end
+
+
 
 auctionHouseListingMdl.belongsTo(itemsMdl, {foreignKey: 'item_id', as: 'itemObj'});
 auctionHouseListingMdl.belongsTo(charactersMdl, {foreignKey: 'character_id', as: 'sellerObj'});
@@ -70,6 +95,7 @@ pvpVendorItemsMdl.belongsTo(itemsMdl, {foreignKey: 'item_id',primaryKey:'id', as
 itemsMdl.hasMany(itemStatsMdl, {foreignKey: 'item_id', as: 'itemStatsObj'});
 
 // PvP end
+
 
 
 
