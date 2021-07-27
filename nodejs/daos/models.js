@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize');
+const gems = require('./db/buffs/gems');
 
 
 var MYSQL_NAME = process.env.SPRING_APP_DB_ECOMMERCE_USR;
@@ -49,6 +50,11 @@ const racesClassesMdl = sequelize.define('race_class_combo', {
 
 
 var enchantsMdl = require("./db/buffs/enchants")(sequelize);
+var gemsMdl = require("./db/buffs/gems")(sequelize);
+
+var enchantedMdl = require("./db/buffs/enchanted")(sequelize);
+var gemmedMdl = require("./db/buffs/gemmed")(sequelize);
+
 var auctionHouseListingMdl = require("./db/ah/ah_listing")(sequelize);
 var auctionHouseBiddingMdl = require("./db/ah/ah_bid")(sequelize);
 var itemsMdl = require("./db/armory/items")(sequelize);
@@ -93,6 +99,8 @@ charactersMdl.hasMany(armoryMdl, {foreignKey: 'character_id', as: 'armoryList'})
 armoryMdl.belongsTo(characterSlotsMdl, {foreignKey: 'slot_id', as: 'slotObj'});
 armoryMdl.belongsTo(itemsMdl, {foreignKey: 'item_id', as: 'itemSlotObj'});
 
+enchantedMdl.belongsTo(armoryMdl, {foreignKey: 'armory_id', as: 'enchantedObj'});
+
 
 racesClassesMdl.belongsTo(racesMdl, {foreignKey: 'race_id', as: 'raceObj'});
 racesClassesMdl.belongsTo(classesMdl, {foreignKey: 'class_id', as: 'classObj'});
@@ -129,7 +137,10 @@ module.exports = {
     statsMdl,
     enchantsMdl,
     realmsMdl,
-    armoryMdl
+    armoryMdl,
+    gemsMdl,
+    enchantedMdl,
+    gemmedMdl
 
 
 };
