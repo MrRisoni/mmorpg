@@ -10,15 +10,33 @@ function  getArmory(characterId = 4) {
             include: [
                 {
                     model: dbObj.racesMdl,
-                    as: 'raceObj'
+                    as: 'raceObj',
+                    required : true
                 },
                 {
                     model: dbObj.classesMdl,
-                    as: 'classObj'
+                    as: 'classObj',
+                    required : true
+
                 },
                 {
                     model: dbObj.realmsMdl,
-                    as: 'realmObj'
+                    as: 'realmObj',
+                    required : true
+                },
+                {
+                    model: dbObj.armoryMdl,
+                    as: 'armoryList',
+                    include: [                {
+                        model: dbObj.characterSlotsMdl,
+                        as: 'slotObj',
+                        required : true
+                    },
+                    {
+                        model: dbObj.itemsMdl,
+                        as: 'itemSlotObj',
+                        required : true
+                    }]
                 }
             ]
         }).then(results => {

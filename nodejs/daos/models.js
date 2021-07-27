@@ -59,6 +59,8 @@ var characterSlotsMdl = require("./db/armory/character_slots")(sequelize);
 var statsMdl = require("./db/armory/stats")(sequelize);
 var realmsMdl = require("./db/armory/realm")(sequelize);
 
+var armoryMdl = require("./db/armory/armory")(sequelize);
+
 
 var recipesMdl = require("./db/professions/recipes")(sequelize);
 var recipeMatsMdl = require("./db/professions/recipe_mats")(sequelize);
@@ -86,6 +88,10 @@ auctionHouseListingMdl.hasMany(auctionHouseBiddingMdl, {foreignKey: 'listing_id'
 charactersMdl.belongsTo(racesMdl, {foreignKey: 'race_id', as: 'raceObj'});
 charactersMdl.belongsTo(classesMdl, {foreignKey: 'race_id', as: 'classObj'});
 charactersMdl.belongsTo(realmsMdl, {foreignKey: 'realm_id', as: 'realmObj'});
+charactersMdl.hasMany(armoryMdl, {foreignKey: 'character_id', as: 'armoryList'});
+
+armoryMdl.belongsTo(characterSlotsMdl, {foreignKey: 'slot_id', as: 'slotObj'});
+armoryMdl.belongsTo(itemsMdl, {foreignKey: 'item_id', as: 'itemSlotObj'});
 
 
 racesClassesMdl.belongsTo(racesMdl, {foreignKey: 'race_id', as: 'raceObj'});
@@ -122,7 +128,8 @@ module.exports = {
     itemStatsMdl,
     statsMdl,
     enchantsMdl,
-    realmsMdl
+    realmsMdl,
+    armoryMdl
 
 
 };

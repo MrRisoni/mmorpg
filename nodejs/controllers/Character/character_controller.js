@@ -11,7 +11,7 @@ function getUnlearnedSpells(req, res) {
 }
 
 function getArmory(req, res) {
-    ArmoryDAO.getArmory(1).then(data => {
+    ArmoryDAO.getArmory(4).then(data => {
         res.send(data);
     }).catch(err => {
         console.log(err);
