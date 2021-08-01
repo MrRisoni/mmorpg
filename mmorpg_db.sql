@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 24, 2021 at 08:59 AM
+-- Generation Time: Aug 01, 2021 at 08:31 AM
 -- Server version: 10.5.10-MariaDB
 -- PHP Version: 7.4.21
 
@@ -77,6 +77,13 @@ CREATE TABLE `armory` (
   `item_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `armory`
+--
+
+INSERT INTO `armory` (`id`, `character_id`, `slot_id`, `item_id`) VALUES
+(1, 4, 1, 7);
+
 -- --------------------------------------------------------
 
 --
@@ -89,6 +96,13 @@ CREATE TABLE `armory_enchants` (
   `enchant_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `armory_enchants`
+--
+
+INSERT INTO `armory_enchants` (`id`, `armory_id`, `enchant_id`) VALUES
+(1, 1, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -100,6 +114,13 @@ CREATE TABLE `armory_gems` (
   `armory_id` bigint(20) UNSIGNED NOT NULL,
   `gem_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `armory_gems`
+--
+
+INSERT INTO `armory_gems` (`id`, `armory_id`, `gem_id`) VALUES
+(1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -1001,9 +1022,17 @@ INSERT INTO `sl_covenant_soulbinds` (`id`, `covenant_id`, `title`) VALUES
 
 CREATE TABLE `sl_socketed_conduits` (
   `id` bigint(20) UNSIGNED NOT NULL,
+  `soulbind_id` tinyint(3) UNSIGNED NOT NULL DEFAULT 1,
   `conduit_id` bigint(20) UNSIGNED NOT NULL,
   `character_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `sl_socketed_conduits`
+--
+
+INSERT INTO `sl_socketed_conduits` (`id`, `soulbind_id`, `conduit_id`, `character_id`) VALUES
+(1, 1, 1, 4);
 
 -- --------------------------------------------------------
 
@@ -1401,7 +1430,8 @@ ALTER TABLE `sl_covenant_soulbinds`
 ALTER TABLE `sl_socketed_conduits`
   ADD PRIMARY KEY (`id`),
   ADD KEY `conduit_id` (`conduit_id`),
-  ADD KEY `character_id` (`character_id`);
+  ADD KEY `character_id` (`character_id`),
+  ADD KEY `soulbind_id` (`soulbind_id`);
 
 --
 -- Indexes for table `sl_soulbinds_characters`
@@ -1447,19 +1477,19 @@ ALTER TABLE `affixes`
 -- AUTO_INCREMENT for table `armory`
 --
 ALTER TABLE `armory`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `armory_enchants`
 --
 ALTER TABLE `armory_enchants`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `armory_gems`
 --
 ALTER TABLE `armory_gems`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `armor_item_stats`
@@ -1693,7 +1723,7 @@ ALTER TABLE `sl_covenant_soulbinds`
 -- AUTO_INCREMENT for table `sl_socketed_conduits`
 --
 ALTER TABLE `sl_socketed_conduits`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `sl_soulbinds_characters`
@@ -1890,7 +1920,8 @@ ALTER TABLE `sl_covenant_soulbinds`
 --
 ALTER TABLE `sl_socketed_conduits`
   ADD CONSTRAINT `sl_socketed_conduits_ibfk_1` FOREIGN KEY (`character_id`) REFERENCES `characters` (`id`),
-  ADD CONSTRAINT `sl_socketed_conduits_ibfk_2` FOREIGN KEY (`conduit_id`) REFERENCES `sl_covenant_conduits` (`id`);
+  ADD CONSTRAINT `sl_socketed_conduits_ibfk_2` FOREIGN KEY (`conduit_id`) REFERENCES `sl_covenant_conduits` (`id`),
+  ADD CONSTRAINT `sl_socketed_conduits_ibfk_3` FOREIGN KEY (`soulbind_id`) REFERENCES `sl_covenant_soulbinds` (`id`);
 
 --
 -- Constraints for table `sl_soulbinds_characters`
