@@ -32,23 +32,19 @@ function  getArmory(characterId = 4) {
                         as: 'slotObj',
                         required : true
                     },
-                    
                     {
                         model: dbObj.enchantedMdl,
                         as: 'enchantedObj',
-                        required : true,
-                            
-
-                         
+                        include : {
+                            model : dbObj.enchantsMdl,
+                            as : 'enchantObj',
+                            required: true
+                        } 
                     },
-             
                     {
                         model: dbObj.itemsMdl,
                         as: 'itemSlotObj',
-                        required : true,
-                            
-
-                         
+                        required : true
                     }]
                 }
             ]

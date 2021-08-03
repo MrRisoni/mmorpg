@@ -100,6 +100,7 @@ armoryMdl.belongsTo(characterSlotsMdl, {foreignKey: 'slot_id', as: 'slotObj'});
 armoryMdl.belongsTo(itemsMdl, {foreignKey: 'item_id', as: 'itemSlotObj'});
 
 armoryMdl.hasMany(enchantedMdl, {foreignKey: 'armory_id', as: 'enchantedObj'});
+enchantedMdl.belongsTo(enchantsMdl, {foreignKey: 'enchant_id', as: 'enchantObj'});
 
 
 racesClassesMdl.belongsTo(racesMdl, {foreignKey: 'race_id', as: 'raceObj'});
