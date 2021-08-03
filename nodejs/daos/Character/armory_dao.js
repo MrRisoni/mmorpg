@@ -42,6 +42,15 @@ function  getArmory(characterId = 4) {
                         } 
                     },
                     {
+                        model: dbObj.gemmedMdl,
+                        as: 'gemmedObj',
+                        include : {
+                            model : dbObj.gemsMdl,
+                            as : 'gemObj',
+                            required: true
+                        } 
+                    },
+                    {
                         model: dbObj.itemsMdl,
                         as: 'itemSlotObj',
                         required : true
