@@ -12,12 +12,14 @@ const auctionHouseRoutes = require("./routes/AuctionHouse/auction_house_routes")
 const charCreationRoutes = require("./routes/CharCreation/char_creation_routes");
 const characterRoutes = require("./routes/Character/character_routes");
 const pvpVendorRoutes = require("./routes/PvPVendor/pvp_vendor_list_items_route");
+const tierSetRoutes = require("./routes/Raids/tier_sets_route");
 
 
 app.use("/", auctionHouseRoutes);
 app.use("/", charCreationRoutes);
 app.use("/", characterRoutes);
 app.use("/", pvpVendorRoutes);
+app.use("/", tierSetRoutes);
 
 
 http.listen(port, (req, res) => {

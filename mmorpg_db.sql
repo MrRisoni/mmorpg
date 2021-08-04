@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 04, 2021 at 08:53 AM
+-- Generation Time: Aug 04, 2021 at 10:11 AM
 -- Server version: 10.5.9-MariaDB
 -- PHP Version: 7.4.21
 
@@ -451,7 +451,8 @@ CREATE TABLE `expansions` (
 
 INSERT INTO `expansions` (`id`, `title`) VALUES
 (1, 'Battle For Azerorth'),
-(2, 'Shadowlands');
+(2, 'Shadowlands'),
+(3, 'Classic');
 
 -- --------------------------------------------------------
 
@@ -513,7 +514,9 @@ INSERT INTO `items` (`id`, `title`) VALUES
 (5, 'SInful Aspirant Axe'),
 (6, 'SInful Aspirant Sword'),
 (7, 'SInful Aspirant Helmet'),
-(8, 'Helm of Transendence');
+(8, 'Helm of Transendence'),
+(9, 'Pauldrons of Transendence'),
+(10, 'Robes of Prophecy');
 
 -- --------------------------------------------------------
 
@@ -842,7 +845,9 @@ CREATE TABLE `raids` (
 
 INSERT INTO `raids` (`id`, `expansion_id`, `title`) VALUES
 (1, 2, 'Castle Nathria'),
-(2, 2, 'Sanctum of Domination');
+(2, 2, 'Sanctum of Domination'),
+(3, 3, 'Blackwing Lair'),
+(4, 3, 'Molten Core');
 
 -- --------------------------------------------------------
 
@@ -870,7 +875,10 @@ INSERT INTO `raid_bosses` (`id`, `raid_id`, `title`) VALUES
 (7, 1, 'Kael\'thas Sunstrider'),
 (8, 1, 'Artificer Xymox'),
 (9, 1, 'The Council of Blood'),
-(10, 1, 'Sire Denathrius');
+(10, 1, 'Sire Denathrius'),
+(11, 3, 'Nefarian'),
+(12, 3, 'Chromaggus'),
+(13, 4, 'Baron Geddon');
 
 -- --------------------------------------------------------
 
@@ -892,6 +900,28 @@ CREATE TABLE `raid_bosses_killed` (
 
 INSERT INTO `raid_bosses_killed` (`id`, `character_id`, `raid_boss_id`, `difficulty_id`, `created_at`) VALUES
 (1, 4, 8, 1, '2021-07-20 05:00:17');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `raid_bosses_loot`
+--
+
+CREATE TABLE `raid_bosses_loot` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `boss_id` bigint(20) UNSIGNED NOT NULL,
+  `item_id` bigint(20) UNSIGNED NOT NULL,
+  `drop_chance` decimal(5,2) UNSIGNED NOT NULL DEFAULT 25.00
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `raid_bosses_loot`
+--
+
+INSERT INTO `raid_bosses_loot` (`id`, `boss_id`, `item_id`, `drop_chance`) VALUES
+(1, 11, 8, '25.00'),
+(2, 12, 9, '25.00'),
+(3, 13, 10, '25.00');
 
 -- --------------------------------------------------------
 
@@ -1146,6 +1176,48 @@ INSERT INTO `stats` (`id`, `title`) VALUES
 (4, 'Stamina'),
 (1, 'Strength'),
 (5, 'Versatility');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tier_sets`
+--
+
+CREATE TABLE `tier_sets` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `class_id` tinyint(3) UNSIGNED NOT NULL DEFAULT 1,
+  `title` varchar(45) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tier_sets`
+--
+
+INSERT INTO `tier_sets` (`id`, `class_id`, `title`) VALUES
+(1, 6, 'Transendence Regalia'),
+(2, 6, 'Vestments of Prophecy');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tier_set_pieces`
+--
+
+CREATE TABLE `tier_set_pieces` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `tier_set_id` bigint(20) UNSIGNED NOT NULL,
+  `slot_it` tinyint(3) UNSIGNED NOT NULL,
+  `item_id` bigint(20) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tier_set_pieces`
+--
+
+INSERT INTO `tier_set_pieces` (`id`, `tier_set_id`, `slot_it`, `item_id`) VALUES
+(1, 1, 1, 8),
+(2, 1, 3, 9),
+(3, 2, 5, 10);
 
 -- --------------------------------------------------------
 
@@ -1442,6 +1514,14 @@ ALTER TABLE `raid_bosses_killed`
   ADD KEY `raid_boss_id` (`raid_boss_id`);
 
 --
+-- Indexes for table `raid_bosses_loot`
+--
+ALTER TABLE `raid_bosses_loot`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `boss_id` (`boss_id`),
+  ADD KEY `item_id` (`item_id`);
+
+--
 -- Indexes for table `realms`
 --
 ALTER TABLE `realms`
@@ -1529,6 +1609,22 @@ ALTER TABLE `spells`
 ALTER TABLE `stats`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `title` (`title`);
+
+--
+-- Indexes for table `tier_sets`
+--
+ALTER TABLE `tier_sets`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `class_id` (`class_id`);
+
+--
+-- Indexes for table `tier_set_pieces`
+--
+ALTER TABLE `tier_set_pieces`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `tier_set_id` (`tier_set_id`),
+  ADD KEY `slot_it` (`slot_it`),
+  ADD KEY `item_id` (`item_id`);
 
 --
 -- Indexes for table `transmog`
@@ -1648,7 +1744,7 @@ ALTER TABLE `enchants`
 -- AUTO_INCREMENT for table `expansions`
 --
 ALTER TABLE `expansions`
-  MODIFY `id` tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `factions`
@@ -1666,7 +1762,7 @@ ALTER TABLE `gems`
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `item_origins`
@@ -1750,19 +1846,25 @@ ALTER TABLE `race_class_combo`
 -- AUTO_INCREMENT for table `raids`
 --
 ALTER TABLE `raids`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `raid_bosses`
 --
 ALTER TABLE `raid_bosses`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `raid_bosses_killed`
 --
 ALTER TABLE `raid_bosses_killed`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `raid_bosses_loot`
+--
+ALTER TABLE `raid_bosses_loot`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `realms`
@@ -1835,6 +1937,18 @@ ALTER TABLE `spells`
 --
 ALTER TABLE `stats`
   MODIFY `id` tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `tier_sets`
+--
+ALTER TABLE `tier_sets`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `tier_set_pieces`
+--
+ALTER TABLE `tier_set_pieces`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `transmog`
@@ -1990,6 +2104,13 @@ ALTER TABLE `raid_bosses_killed`
   ADD CONSTRAINT `raid_bosses_killed_ibfk_3` FOREIGN KEY (`raid_boss_id`) REFERENCES `raid_bosses` (`id`);
 
 --
+-- Constraints for table `raid_bosses_loot`
+--
+ALTER TABLE `raid_bosses_loot`
+  ADD CONSTRAINT `raid_bosses_loot_ibfk_1` FOREIGN KEY (`boss_id`) REFERENCES `raid_bosses` (`id`),
+  ADD CONSTRAINT `raid_bosses_loot_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `items` (`id`);
+
+--
 -- Constraints for table `recipe_mats`
 --
 ALTER TABLE `recipe_mats`
@@ -2043,6 +2164,20 @@ ALTER TABLE `sl_soulbinds_characters`
 ALTER TABLE `spells`
   ADD CONSTRAINT `spells_ibfk_1` FOREIGN KEY (`class_id`) REFERENCES `classes` (`id`),
   ADD CONSTRAINT `spells_ibfk_2` FOREIGN KEY (`spec_id`) REFERENCES `class_specs` (`id`);
+
+--
+-- Constraints for table `tier_sets`
+--
+ALTER TABLE `tier_sets`
+  ADD CONSTRAINT `tier_sets_ibfk_1` FOREIGN KEY (`class_id`) REFERENCES `classes` (`id`);
+
+--
+-- Constraints for table `tier_set_pieces`
+--
+ALTER TABLE `tier_set_pieces`
+  ADD CONSTRAINT `tier_set_pieces_ibfk_1` FOREIGN KEY (`tier_set_id`) REFERENCES `tier_sets` (`id`),
+  ADD CONSTRAINT `tier_set_pieces_ibfk_2` FOREIGN KEY (`slot_it`) REFERENCES `characher_slots` (`id`),
+  ADD CONSTRAINT `tier_set_pieces_ibfk_3` FOREIGN KEY (`item_id`) REFERENCES `items` (`id`);
 
 --
 -- Constraints for table `transmog`

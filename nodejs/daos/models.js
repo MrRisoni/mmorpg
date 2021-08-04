@@ -81,6 +81,11 @@ var pvpCurrencyMdl = require("./db/pvp/pvp_currency")(sequelize);
 var transmogMdl = require("./db/armory/transmog")(sequelize);
 
 
+// dungeons begin
+var raidsMdl = require("./db/dungeons/raids")(sequelize);
+var bossesMdl = require("./db/dungeons/bosses")(sequelize);
+var tierSetsMdl = require("./db/dungeons/tier_sets")(sequelize);
+// dungeons end
 
 // shadowlands begin
 var SL_CovenantsMdl = require("./db/expansions/shadowlands/covenants")(sequelize);
