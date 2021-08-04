@@ -10,4 +10,4 @@ function getTierSets(req, res) {
    })
 }
 
-module.exports = {getListingsForItem}
+module.exports = {getTierSets}

@@ -85,6 +85,7 @@ var transmogMdl = require("./db/armory/transmog")(sequelize);
 var raidsMdl = require("./db/dungeons/raids")(sequelize);
 var bossesMdl = require("./db/dungeons/bosses")(sequelize);
 var tierSetsMdl = require("./db/dungeons/tier_sets")(sequelize);
+var tierSetPiecesMdl = require("./db/dungeons/tier_set_pieces")(sequelize);
 // dungeons end
 
 // shadowlands begin
@@ -119,6 +120,8 @@ itemTitles.belongsTo(itemOrigins, {foreignKey: 'title_id', as: 'originObj'});
 
 armoryMdl.hasMany(transmogMdl, {foreignKey: 'original_item_id', as: 'transmogObj'});
 transmogMdl.belongsTo(itemsMdl, {foreignKey: 'transmoged_to_id', as: 'tranmoggedObj'});
+
+tierSetsMdl.hasMany(tierSetPiecesMdl, {foreignKey: 'tier_set_id', as: 'pieceObj'});
 
 
 racesClassesMdl.belongsTo(racesMdl, {foreignKey: 'race_id', as: 'raceObj'});
@@ -162,7 +165,11 @@ module.exports = {
     gemmedMdl,
     itemOrigins,
     itemTitles,
-    transmogMdl
+    transmogMdl,
+    tierSetsMdl,
+    bossesMdl,
+    raidsMdl,
+    tierSetPiecesMdl
 
 
 };
