@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 04, 2021 at 10:11 AM
+-- Generation Time: Aug 04, 2021 at 04:31 PM
 -- Server version: 10.5.9-MariaDB
 -- PHP Version: 7.4.21
 
@@ -74,15 +74,17 @@ CREATE TABLE `armory` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `character_id` bigint(20) UNSIGNED NOT NULL,
   `slot_id` tinyint(3) UNSIGNED NOT NULL,
-  `item_id` bigint(20) UNSIGNED NOT NULL
+  `item_id` bigint(20) UNSIGNED NOT NULL,
+  `ilvl` smallint(5) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `armory`
 --
 
-INSERT INTO `armory` (`id`, `character_id`, `slot_id`, `item_id`) VALUES
-(1, 4, 1, 7);
+INSERT INTO `armory` (`id`, `character_id`, `slot_id`, `item_id`, `ilvl`) VALUES
+(1, 4, 1, 7, 197),
+(2, 4, 7, 11, 210);
 
 -- --------------------------------------------------------
 
@@ -121,6 +123,25 @@ CREATE TABLE `armory_gems` (
 
 INSERT INTO `armory_gems` (`id`, `armory_id`, `gem_id`) VALUES
 (1, 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `armory_item_rank`
+--
+
+CREATE TABLE `armory_item_rank` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `armory_id` bigint(20) UNSIGNED NOT NULL,
+  `rank` tinyint(3) UNSIGNED NOT NULL DEFAULT 2
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `armory_item_rank`
+--
+
+INSERT INTO `armory_item_rank` (`id`, `armory_id`, `rank`) VALUES
+(1, 2, 2);
 
 -- --------------------------------------------------------
 
@@ -516,7 +537,8 @@ INSERT INTO `items` (`id`, `title`) VALUES
 (7, 'SInful Aspirant Helmet'),
 (8, 'Helm of Transendence'),
 (9, 'Pauldrons of Transendence'),
-(10, 'Robes of Prophecy');
+(10, 'Robes of Prophecy'),
+(11, 'Gauntlets of endurance');
 
 -- --------------------------------------------------------
 
@@ -555,7 +577,8 @@ CREATE TABLE `item_titles` (
 --
 
 INSERT INTO `item_titles` (`id`, `item_id`, `title_id`) VALUES
-(1, 7, 1);
+(1, 7, 1),
+(2, 11, 3);
 
 -- --------------------------------------------------------
 
@@ -1206,7 +1229,7 @@ INSERT INTO `tier_sets` (`id`, `class_id`, `title`) VALUES
 CREATE TABLE `tier_set_pieces` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `tier_set_id` bigint(20) UNSIGNED NOT NULL,
-  `slot_it` tinyint(3) UNSIGNED NOT NULL,
+  `slot_id` tinyint(3) UNSIGNED NOT NULL,
   `item_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -1214,7 +1237,7 @@ CREATE TABLE `tier_set_pieces` (
 -- Dumping data for table `tier_set_pieces`
 --
 
-INSERT INTO `tier_set_pieces` (`id`, `tier_set_id`, `slot_it`, `item_id`) VALUES
+INSERT INTO `tier_set_pieces` (`id`, `tier_set_id`, `slot_id`, `item_id`) VALUES
 (1, 1, 1, 8),
 (2, 1, 3, 9),
 (3, 2, 5, 10);
@@ -1278,6 +1301,13 @@ ALTER TABLE `armory_gems`
   ADD PRIMARY KEY (`id`),
   ADD KEY `armory_id` (`armory_id`),
   ADD KEY `gem_id` (`gem_id`);
+
+--
+-- Indexes for table `armory_item_rank`
+--
+ALTER TABLE `armory_item_rank`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `armory_id` (`armory_id`);
 
 --
 -- Indexes for table `armor_item_stats`
@@ -1623,7 +1653,7 @@ ALTER TABLE `tier_sets`
 ALTER TABLE `tier_set_pieces`
   ADD PRIMARY KEY (`id`),
   ADD KEY `tier_set_id` (`tier_set_id`),
-  ADD KEY `slot_it` (`slot_it`),
+  ADD KEY `slot_it` (`slot_id`),
   ADD KEY `item_id` (`item_id`);
 
 --
@@ -1654,7 +1684,7 @@ ALTER TABLE `affixes`
 -- AUTO_INCREMENT for table `armory`
 --
 ALTER TABLE `armory`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `armory_enchants`
@@ -1666,6 +1696,12 @@ ALTER TABLE `armory_enchants`
 -- AUTO_INCREMENT for table `armory_gems`
 --
 ALTER TABLE `armory_gems`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `armory_item_rank`
+--
+ALTER TABLE `armory_item_rank`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
@@ -1762,7 +1798,7 @@ ALTER TABLE `gems`
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `item_origins`
@@ -1774,7 +1810,7 @@ ALTER TABLE `item_origins`
 -- AUTO_INCREMENT for table `item_titles`
 --
 ALTER TABLE `item_titles`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `learned_spells`
@@ -1983,6 +2019,12 @@ ALTER TABLE `armory_gems`
   ADD CONSTRAINT `armory_gems_ibfk_2` FOREIGN KEY (`gem_id`) REFERENCES `gems` (`id`);
 
 --
+-- Constraints for table `armory_item_rank`
+--
+ALTER TABLE `armory_item_rank`
+  ADD CONSTRAINT `armory_item_rank_ibfk_1` FOREIGN KEY (`armory_id`) REFERENCES `armory` (`id`);
+
+--
 -- Constraints for table `armor_item_stats`
 --
 ALTER TABLE `armor_item_stats`
@@ -2176,7 +2218,7 @@ ALTER TABLE `tier_sets`
 --
 ALTER TABLE `tier_set_pieces`
   ADD CONSTRAINT `tier_set_pieces_ibfk_1` FOREIGN KEY (`tier_set_id`) REFERENCES `tier_sets` (`id`),
-  ADD CONSTRAINT `tier_set_pieces_ibfk_2` FOREIGN KEY (`slot_it`) REFERENCES `characher_slots` (`id`),
+  ADD CONSTRAINT `tier_set_pieces_ibfk_2` FOREIGN KEY (`slot_id`) REFERENCES `characher_slots` (`id`),
   ADD CONSTRAINT `tier_set_pieces_ibfk_3` FOREIGN KEY (`item_id`) REFERENCES `items` (`id`);
 
 --

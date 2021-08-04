@@ -68,6 +68,7 @@ var realmsMdl = require("./db/armory/realm")(sequelize);
 var armoryMdl = require("./db/armory/armory")(sequelize);
 var itemOrigins = require("./db/armory/item_origin")(sequelize);
 var itemTitles = require("./db/armory/item_titles")(sequelize);
+var armoryRankMdl = require("./db/armory/armory_rank")(sequelize);
 
 
 var recipesMdl = require("./db/professions/recipes")(sequelize);
@@ -121,6 +122,9 @@ itemTitles.belongsTo(itemOrigins, {foreignKey: 'title_id', as: 'originObj'});
 armoryMdl.hasMany(transmogMdl, {foreignKey: 'original_item_id', as: 'transmogObj'});
 transmogMdl.belongsTo(itemsMdl, {foreignKey: 'transmoged_to_id', as: 'tranmoggedObj'});
 
+armoryMdl.hasMany(armoryRankMdl, {foreignKey: 'armory_id', as: 'rankItemObj'});
+
+
 tierSetsMdl.hasMany(tierSetPiecesMdl, {foreignKey: 'tier_set_id', as: 'pieceObj'});
 tierSetPiecesMdl.belongsTo(itemsMdl, {foreignKey: 'item_id', as: 'tierPieceObj'});
 tierSetPiecesMdl.belongsTo(characterSlotsMdl, {foreignKey: 'slot_id', as: 'tierPieceSlotObj'});
@@ -171,7 +175,8 @@ module.exports = {
     tierSetsMdl,
     bossesMdl,
     raidsMdl,
-    tierSetPiecesMdl
+    tierSetPiecesMdl,
+    armoryRankMdl
 
 
 };

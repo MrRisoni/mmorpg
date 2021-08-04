@@ -33,6 +33,10 @@ function  getArmory(characterId = 4) {
                         required : true
                     },
                     {
+                        model: dbObj.armoryRankMdl,
+                        as: 'rankItemObj'
+                    },
+                    {
                         model: dbObj.transmogMdl,
                         as: 'transmogObj',
                         include : {
