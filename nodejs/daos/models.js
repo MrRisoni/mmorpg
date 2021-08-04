@@ -122,6 +122,7 @@ armoryMdl.hasMany(transmogMdl, {foreignKey: 'original_item_id', as: 'transmogObj
 transmogMdl.belongsTo(itemsMdl, {foreignKey: 'transmoged_to_id', as: 'tranmoggedObj'});
 
 tierSetsMdl.hasMany(tierSetPiecesMdl, {foreignKey: 'tier_set_id', as: 'pieceObj'});
+tierSetPiecesMdl.belongsTo(itemsMdl, {foreignKey: 'item_id', as: 'tierPieceObj'});
 
 
 racesClassesMdl.belongsTo(racesMdl, {foreignKey: 'race_id', as: 'raceObj'});

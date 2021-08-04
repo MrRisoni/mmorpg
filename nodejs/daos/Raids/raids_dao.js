@@ -9,6 +9,13 @@ function  getTierSets() {
                     model: dbObj.tierSetPiecesMdl,
                     as: 'pieceObj',
                     required: true,
+                    include: [
+                        {
+                            model: dbObj.itemsMdl,
+                            as: 'tierPieceObj',
+                            required: true
+                        }
+                    ]
                 }
             ]
         
