@@ -123,6 +123,7 @@ transmogMdl.belongsTo(itemsMdl, {foreignKey: 'transmoged_to_id', as: 'tranmogged
 
 tierSetsMdl.hasMany(tierSetPiecesMdl, {foreignKey: 'tier_set_id', as: 'pieceObj'});
 tierSetPiecesMdl.belongsTo(itemsMdl, {foreignKey: 'item_id', as: 'tierPieceObj'});
+tierSetPiecesMdl.belongsTo(characterSlotsMdl, {foreignKey: 'slot_id', as: 'tierPieceSlotObj'});
 
 
 racesClassesMdl.belongsTo(racesMdl, {foreignKey: 'race_id', as: 'raceObj'});

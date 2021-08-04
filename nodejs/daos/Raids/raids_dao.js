@@ -14,7 +14,13 @@ function  getTierSets() {
                             model: dbObj.itemsMdl,
                             as: 'tierPieceObj',
                             required: true
-                        }
+                        },
+                        {
+                            model: dbObj.characterSlotsMdl,
+                            as: 'tierPieceSlotObj',
+                            required: true
+                        },
+                        
                     ]
                 }
             ]
