@@ -66,6 +66,7 @@ var statsMdl = require("./db/armory/stats")(sequelize);
 var realmsMdl = require("./db/armory/realm")(sequelize);
 
 var armoryMdl = require("./db/armory/armory")(sequelize);
+
 var itemOrigins = require("./db/armory/item_origin")(sequelize);
 var itemTitles = require("./db/armory/item_titles")(sequelize);
 var armoryRankMdl = require("./db/armory/armory_rank")(sequelize);
@@ -109,6 +110,9 @@ charactersMdl.hasMany(armoryMdl, {foreignKey: 'character_id', as: 'armoryList'})
 
 armoryMdl.belongsTo(characterSlotsMdl, {foreignKey: 'slot_id', as: 'slotObj'});
 armoryMdl.belongsTo(itemsMdl, {foreignKey: 'item_id', as: 'itemSlotObj'});
+
+itemStatsMdl.belongsTo(statsMdl, {foreignKey: 'stat_id', as: 'statObj'});
+
 
 armoryMdl.hasMany(enchantedMdl, {foreignKey: 'armory_id', as: 'enchantedObj'});
 enchantedMdl.belongsTo(enchantsMdl, {foreignKey: 'enchant_id', as: 'enchantObj'});

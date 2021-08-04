@@ -32,7 +32,7 @@ function  getArmory(characterId = 4) {
                         as: 'slotObj',
                         required : true
                     },
-                    {
+                                        {
                         model: dbObj.armoryRankMdl,
                         as: 'rankItemObj'
                     },
@@ -66,7 +66,17 @@ function  getArmory(characterId = 4) {
                         model: dbObj.itemsMdl,
                         as: 'itemSlotObj',
                         required : true,
-                        include : [{
+                        include : [
+                            {
+                                model: dbObj.itemStatsMdl,
+                                as: 'itemStatsObj',
+                                include :
+                                {
+                                    model: dbObj.statsMdl,
+                                    as: 'statObj'
+                                }
+                            },
+                            {
                             model: dbObj.itemTitles,
                             as: 'titleObj',
                             include : {
