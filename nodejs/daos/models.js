@@ -66,6 +66,8 @@ var statsMdl = require("./db/armory/stats")(sequelize);
 var realmsMdl = require("./db/armory/realm")(sequelize);
 
 var armoryMdl = require("./db/armory/armory")(sequelize);
+var itemOrigins = require("./db/armory/item_origin")(sequelize);
+var itemTitles = require("./db/armory/item_titles")(sequelize);
 
 
 var recipesMdl = require("./db/professions/recipes")(sequelize);
@@ -102,11 +104,11 @@ armoryMdl.belongsTo(itemsMdl, {foreignKey: 'item_id', as: 'itemSlotObj'});
 armoryMdl.hasMany(enchantedMdl, {foreignKey: 'armory_id', as: 'enchantedObj'});
 enchantedMdl.belongsTo(enchantsMdl, {foreignKey: 'enchant_id', as: 'enchantObj'});
 
-
 armoryMdl.hasMany(gemmedMdl, {foreignKey: 'armory_id', as: 'gemmedObj'});
 gemmedMdl.belongsTo(gemsMdl, {foreignKey: 'gem_id', as: 'gemObj'});
 
-
+itemsMdl.hasMany(itemTitles, {foreignKey: 'item_id', as: 'titleObj'});
+itemTitles.belongsTo(itemOrigins, {foreignKey: 'title_id', as: 'originObj'});
 
 
 racesClassesMdl.belongsTo(racesMdl, {foreignKey: 'race_id', as: 'raceObj'});
@@ -147,7 +149,9 @@ module.exports = {
     armoryMdl,
     gemsMdl,
     enchantedMdl,
-    gemmedMdl
+    gemmedMdl,
+    itemOrigins,
+    itemTitles,
 
 
 };

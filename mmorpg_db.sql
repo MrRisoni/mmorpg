@@ -1,10 +1,10 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.1.1-1.fc34
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 01, 2021 at 08:31 AM
--- Server version: 10.5.10-MariaDB
+-- Generation Time: Aug 04, 2021 at 07:12 AM
+-- Server version: 10.5.9-MariaDB
 -- PHP Version: 7.4.21
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -513,6 +513,45 @@ INSERT INTO `items` (`id`, `title`) VALUES
 (5, 'SInful Aspirant Axe'),
 (6, 'SInful Aspirant Sword'),
 (7, 'SInful Aspirant Helmet');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `item_origins`
+--
+
+CREATE TABLE `item_origins` (
+  `id` tinyint(3) UNSIGNED NOT NULL,
+  `title` varchar(25) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `item_origins`
+--
+
+INSERT INTO `item_origins` (`id`, `title`) VALUES
+(1, 'Raid Finder'),
+(2, 'Heroic'),
+(3, 'Mythic');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `item_titles`
+--
+
+CREATE TABLE `item_titles` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `item_id` bigint(20) UNSIGNED NOT NULL,
+  `title_id` tinyint(3) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `item_titles`
+--
+
+INSERT INTO `item_titles` (`id`, `item_id`, `title_id`) VALUES
+(1, 7, 1);
 
 -- --------------------------------------------------------
 
@@ -1263,6 +1302,20 @@ ALTER TABLE `items`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `item_origins`
+--
+ALTER TABLE `item_origins`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `item_titles`
+--
+ALTER TABLE `item_titles`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `item_id` (`item_id`),
+  ADD KEY `title_id` (`title_id`);
+
+--
 -- Indexes for table `learned_spells`
 --
 ALTER TABLE `learned_spells`
@@ -1588,6 +1641,18 @@ ALTER TABLE `items`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
+-- AUTO_INCREMENT for table `item_origins`
+--
+ALTER TABLE `item_origins`
+  MODIFY `id` tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `item_titles`
+--
+ALTER TABLE `item_titles`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `learned_spells`
 --
 ALTER TABLE `learned_spells`
@@ -1818,6 +1883,13 @@ ALTER TABLE `class_specs`
 --
 ALTER TABLE `dungeons`
   ADD CONSTRAINT `dungeons_ibfk_1` FOREIGN KEY (`expansion_id`) REFERENCES `expansions` (`id`);
+
+--
+-- Constraints for table `item_titles`
+--
+ALTER TABLE `item_titles`
+  ADD CONSTRAINT `item_titles_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `items` (`id`),
+  ADD CONSTRAINT `item_titles_ibfk_2` FOREIGN KEY (`title_id`) REFERENCES `item_origins` (`id`);
 
 --
 -- Constraints for table `learned_spells`

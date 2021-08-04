@@ -53,7 +53,16 @@ function  getArmory(characterId = 4) {
                     {
                         model: dbObj.itemsMdl,
                         as: 'itemSlotObj',
-                        required : true
+                        required : true,
+                        include : {
+                            model: dbObj.itemTitles,
+                            as: 'titleObj',
+                            include : {
+                                model: dbObj.itemOrigins,
+                                as: 'originObj'
+                            }
+                        }
+                    
                     }]
                 }
             ]
