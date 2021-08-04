@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 04, 2021 at 07:12 AM
+-- Generation Time: Aug 04, 2021 at 08:53 AM
 -- Server version: 10.5.9-MariaDB
 -- PHP Version: 7.4.21
 
@@ -512,7 +512,8 @@ INSERT INTO `items` (`id`, `title`) VALUES
 (4, 'Sinful Gladiator'),
 (5, 'SInful Aspirant Axe'),
 (6, 'SInful Aspirant Sword'),
-(7, 'SInful Aspirant Helmet');
+(7, 'SInful Aspirant Helmet'),
+(8, 'Helm of Transendence');
 
 -- --------------------------------------------------------
 
@@ -1146,6 +1147,25 @@ INSERT INTO `stats` (`id`, `title`) VALUES
 (1, 'Strength'),
 (5, 'Versatility');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `transmog`
+--
+
+CREATE TABLE `transmog` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `original_item_id` bigint(20) UNSIGNED NOT NULL,
+  `transmoged_to_id` bigint(20) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `transmog`
+--
+
+INSERT INTO `transmog` (`id`, `original_item_id`, `transmoged_to_id`) VALUES
+(1, 1, 8);
+
 --
 -- Indexes for dumped tables
 --
@@ -1511,6 +1531,14 @@ ALTER TABLE `stats`
   ADD UNIQUE KEY `title` (`title`);
 
 --
+-- Indexes for table `transmog`
+--
+ALTER TABLE `transmog`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `original_item_id` (`original_item_id`),
+  ADD KEY `transmoged_to_id` (`transmoged_to_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -1638,7 +1666,7 @@ ALTER TABLE `gems`
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `item_origins`
@@ -1807,6 +1835,12 @@ ALTER TABLE `spells`
 --
 ALTER TABLE `stats`
   MODIFY `id` tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `transmog`
+--
+ALTER TABLE `transmog`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
@@ -2009,6 +2043,13 @@ ALTER TABLE `sl_soulbinds_characters`
 ALTER TABLE `spells`
   ADD CONSTRAINT `spells_ibfk_1` FOREIGN KEY (`class_id`) REFERENCES `classes` (`id`),
   ADD CONSTRAINT `spells_ibfk_2` FOREIGN KEY (`spec_id`) REFERENCES `class_specs` (`id`);
+
+--
+-- Constraints for table `transmog`
+--
+ALTER TABLE `transmog`
+  ADD CONSTRAINT `transmog_ibfk_1` FOREIGN KEY (`original_item_id`) REFERENCES `armory` (`id`),
+  ADD CONSTRAINT `transmog_ibfk_2` FOREIGN KEY (`transmoged_to_id`) REFERENCES `items` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

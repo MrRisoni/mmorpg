@@ -78,6 +78,8 @@ var pvpVendorItemsMdl = require("./db/pvp/pvp_vendor_item")(sequelize);
 var itemStatsMdl = require("./db/armory/item_stats")(sequelize);
 var pvpCurrencyMdl = require("./db/pvp/pvp_currency")(sequelize);
 
+var transmogMdl = require("./db/armory/transmog")(sequelize);
+
 
 
 // shadowlands begin
@@ -109,6 +111,9 @@ gemmedMdl.belongsTo(gemsMdl, {foreignKey: 'gem_id', as: 'gemObj'});
 
 itemsMdl.hasMany(itemTitles, {foreignKey: 'item_id', as: 'titleObj'});
 itemTitles.belongsTo(itemOrigins, {foreignKey: 'title_id', as: 'originObj'});
+
+armoryMdl.hasMany(transmogMdl, {foreignKey: 'original_item_id', as: 'transmogObj'});
+transmogMdl.belongsTo(itemsMdl, {foreignKey: 'transmoged_to_id', as: 'tranmoggedObj'});
 
 
 racesClassesMdl.belongsTo(racesMdl, {foreignKey: 'race_id', as: 'raceObj'});
@@ -152,6 +157,7 @@ module.exports = {
     gemmedMdl,
     itemOrigins,
     itemTitles,
+    transmogMdl
 
 
 };

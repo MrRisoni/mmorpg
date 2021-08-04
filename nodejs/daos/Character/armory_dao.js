@@ -33,6 +33,14 @@ function  getArmory(characterId = 4) {
                         required : true
                     },
                     {
+                        model: dbObj.transmogMdl,
+                        as: 'transmogObj',
+                        include : {
+                            model: dbObj.itemsMdl,
+                            as: 'tranmoggedObj'
+                        }
+                    },
+                    {
                         model: dbObj.enchantedMdl,
                         as: 'enchantedObj',
                         include : {
@@ -54,7 +62,7 @@ function  getArmory(characterId = 4) {
                         model: dbObj.itemsMdl,
                         as: 'itemSlotObj',
                         required : true,
-                        include : {
+                        include : [{
                             model: dbObj.itemTitles,
                             as: 'titleObj',
                             include : {
@@ -62,6 +70,7 @@ function  getArmory(characterId = 4) {
                                 as: 'originObj'
                             }
                         }
+                       ]
                     
                     }]
                 }
