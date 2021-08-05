@@ -20,6 +20,11 @@ function  getArmory(characterId = 4) {
 
                 },
                 {
+                    model: dbObj.factionsMdl,
+                    as: 'factionObj',
+                    required : true
+                },
+                {
                     model: dbObj.realmsMdl,
                     as: 'realmObj',
                     required : true

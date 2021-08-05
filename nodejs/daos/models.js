@@ -60,6 +60,8 @@ var auctionHouseBiddingMdl = require("./db/ah/ah_bid")(sequelize);
 var itemsMdl = require("./db/armory/items")(sequelize);
 var charactersMdl = require("./db/armory/characters")(sequelize);
 var racesMdl = require("./db/armory/races")(sequelize);
+var factionsMdl = require("./db/armory/factions")(sequelize);
+
 var classesMdl = require("./db/armory/classes")(sequelize);
 var characterSlotsMdl = require("./db/armory/character_slots")(sequelize);
 var statsMdl = require("./db/armory/stats")(sequelize);
@@ -82,6 +84,11 @@ var pvpCurrencyMdl = require("./db/pvp/pvp_currency")(sequelize);
 
 var transmogMdl = require("./db/armory/transmog")(sequelize);
 
+// reputations
+var reputationCharacterMdl =   require("./db/reputations/reputation_character")(sequelize);
+var reputationFactionsMdl =   require("./db/reputations/reputation_factions")(sequelize);
+var reputationRanksMdl =   require("./db/reputations/reputation_ranks")(sequelize);
+
 
 // dungeons begin
 var raidsMdl = require("./db/dungeons/raids")(sequelize);
@@ -96,6 +103,7 @@ var SL_SoulbindsMdl=  require("./db/expansions/shadowlands/soulbinds")(sequelize
 var SL_ConduitsMdl =  require("./db/expansions/shadowlands/conduits")(sequelize);
 // shadowlands end
 
+reputationCharacterMdl.belongsTo(charactersMdl, {foreignKey: 'character_id', as: 'charObj'});
 
 
 auctionHouseListingMdl.belongsTo(itemsMdl, {foreignKey: 'item_id', as: 'itemObj'});
@@ -104,6 +112,8 @@ auctionHouseListingMdl.belongsTo(charactersMdl, {foreignKey: 'character_id', as:
 auctionHouseListingMdl.hasMany(auctionHouseBiddingMdl, {foreignKey: 'listing_id', as: 'bidsListObj'});
 
 charactersMdl.belongsTo(racesMdl, {foreignKey: 'race_id', as: 'raceObj'});
+charactersMdl.belongsTo(factionsMdl, {foreignKey: 'faction_id', as: 'factionObj'});
+
 charactersMdl.belongsTo(classesMdl, {foreignKey: 'race_id', as: 'classObj'});
 charactersMdl.belongsTo(realmsMdl, {foreignKey: 'realm_id', as: 'realmObj'});
 charactersMdl.hasMany(armoryMdl, {foreignKey: 'character_id', as: 'armoryList'});
@@ -180,7 +190,12 @@ module.exports = {
     bossesMdl,
     raidsMdl,
     tierSetPiecesMdl,
-    armoryRankMdl
+    armoryRankMdl,
+    factionsMdl,
+    reputationRanksMdl,
+    reputationFactionsMdl,
+    reputationCharacterMdl
+
 
 
 };

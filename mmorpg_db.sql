@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 04, 2021 at 04:31 PM
+-- Generation Time: Aug 05, 2021 at 06:54 AM
 -- Server version: 10.5.9-MariaDB
 -- PHP Version: 7.4.21
 
@@ -164,7 +164,9 @@ INSERT INTO `armor_item_stats` (`id`, `item_id`, `val`, `stat_id`) VALUES
 (1, 1, 24, 4),
 (2, 2, 30, 4),
 (3, 3, 34, 4),
-(4, 4, 44, 4);
+(4, 4, 44, 4),
+(5, 7, 44, 4),
+(6, 7, 34, 3);
 
 -- --------------------------------------------------------
 
@@ -292,6 +294,7 @@ CREATE TABLE `characters` (
   `account_id` bigint(20) UNSIGNED NOT NULL DEFAULT 1,
   `realm_id` int(10) UNSIGNED NOT NULL,
   `race_id` tinyint(3) UNSIGNED NOT NULL,
+  `faction_id` tinyint(3) UNSIGNED NOT NULL DEFAULT 1,
   `class_id` tinyint(3) UNSIGNED NOT NULL,
   `name` varchar(45) NOT NULL,
   `lvl` smallint(5) UNSIGNED NOT NULL,
@@ -307,12 +310,33 @@ CREATE TABLE `characters` (
 -- Dumping data for table `characters`
 --
 
-INSERT INTO `characters` (`id`, `account_id`, `realm_id`, `race_id`, `class_id`, `name`, `lvl`, `gold`, `silver`, `copper`, `location`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 1, 2, 'Shiar', 60, 45000, 77, 45, '', '2021-05-04 16:13:32', '2021-05-04 16:13:32'),
-(2, 2, 1, 2, 1, 'Kungen', 70, 0, 0, 0, '', '2021-05-04 16:15:21', '2021-05-04 16:15:21'),
-(3, 2, 1, 2, 5, 'Sontse', 70, 0, 0, 0, '', '2021-05-04 16:15:21', '2021-05-04 16:15:21'),
-(4, 1, 1, 11, 3, 'Dakini', 60, 0, 0, 0, '', '2021-05-16 15:08:49', '2021-05-16 15:08:49'),
-(5, 1, 1, 4, 4, 'Xav', 70, 0, 0, 0, '', '2021-05-16 15:44:04', '2021-05-16 15:44:04');
+INSERT INTO `characters` (`id`, `account_id`, `realm_id`, `race_id`, `faction_id`, `class_id`, `name`, `lvl`, `gold`, `silver`, `copper`, `location`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 1, 1, 2, 'Shiar', 60, 45000, 77, 45, '', '2021-05-04 16:13:32', '2021-05-04 16:13:32'),
+(2, 2, 1, 2, 1, 1, 'Kungen', 70, 0, 0, 0, '', '2021-05-04 16:15:21', '2021-05-04 16:15:21'),
+(3, 2, 1, 2, 1, 5, 'Sontse', 70, 0, 0, 0, '', '2021-05-04 16:15:21', '2021-05-04 16:15:21'),
+(4, 1, 1, 11, 1, 3, 'Dakini', 60, 0, 0, 0, '', '2021-05-16 15:08:49', '2021-05-16 15:08:49'),
+(5, 1, 1, 4, 1, 4, 'Xav', 70, 0, 0, 0, '', '2021-05-16 15:44:04', '2021-05-16 15:44:04');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `character_currencies`
+--
+
+CREATE TABLE `character_currencies` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `character_id` bigint(20) UNSIGNED NOT NULL,
+  `currency_id` bigint(20) UNSIGNED NOT NULL,
+  `amount` mediumint(8) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `character_currencies`
+--
+
+INSERT INTO `character_currencies` (`id`, `character_id`, `currency_id`, `amount`) VALUES
+(1, 4, 1, 14563),
+(2, 4, 3, 34);
 
 -- --------------------------------------------------------
 
@@ -389,6 +413,27 @@ INSERT INTO `class_specs` (`id`, `class_id`, `title`) VALUES
 (4, 11, 'Blood'),
 (6, 11, 'Frost'),
 (5, 11, 'Unholy');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `currencies`
+--
+
+CREATE TABLE `currencies` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `expansion_id` tinyint(3) UNSIGNED NOT NULL,
+  `title` varchar(25) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `currencies`
+--
+
+INSERT INTO `currencies` (`id`, `expansion_id`, `title`) VALUES
+(1, 2, 'Soul ash'),
+(2, 2, 'Anima'),
+(3, 2, 'Stygian Embers');
 
 -- --------------------------------------------------------
 
@@ -1009,6 +1054,70 @@ INSERT INTO `recipe_mats` (`id`, `recipe_id`, `item_id`, `quantity`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `reputation_factions`
+--
+
+CREATE TABLE `reputation_factions` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(45) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `reputation_factions`
+--
+
+INSERT INTO `reputation_factions` (`id`, `title`) VALUES
+(1, 'Brood of Nozdormu');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `reputation_factions_ranks`
+--
+
+CREATE TABLE `reputation_factions_ranks` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `faction_id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(45) NOT NULL,
+  `amount` mediumint(8) UNSIGNED NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `reputation_factions_ranks`
+--
+
+INSERT INTO `reputation_factions_ranks` (`id`, `faction_id`, `title`, `amount`) VALUES
+(1, 1, 'Hated', 1800),
+(2, 1, 'Unfriendly', 2500),
+(3, 1, 'Neutral', 3400),
+(4, 1, 'Honored', 4500),
+(5, 1, 'Revered', 5900),
+(6, 1, 'Exalted', 6300);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `reputation_faction_character`
+--
+
+CREATE TABLE `reputation_faction_character` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `character_id` bigint(20) UNSIGNED NOT NULL,
+  `faction_id` bigint(20) UNSIGNED NOT NULL,
+  `rank_id` bigint(20) UNSIGNED NOT NULL,
+  `amount` smallint(5) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `reputation_faction_character`
+--
+
+INSERT INTO `reputation_faction_character` (`id`, `character_id`, `faction_id`, `rank_id`, `amount`) VALUES
+(1, 4, 1, 3, 1560);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `seasons`
 --
 
@@ -1355,7 +1464,16 @@ ALTER TABLE `characters`
   ADD KEY `realm_id` (`realm_id`),
   ADD KEY `race_id` (`race_id`),
   ADD KEY `class_id` (`class_id`),
-  ADD KEY `account_id` (`account_id`);
+  ADD KEY `account_id` (`account_id`),
+  ADD KEY `faction_id` (`faction_id`);
+
+--
+-- Indexes for table `character_currencies`
+--
+ALTER TABLE `character_currencies`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `character_id` (`character_id`),
+  ADD KEY `currency_id` (`currency_id`);
 
 --
 -- Indexes for table `character_scoring`
@@ -1379,6 +1497,13 @@ ALTER TABLE `class_specs`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `class_id_2` (`class_id`,`title`),
   ADD KEY `class_id` (`class_id`);
+
+--
+-- Indexes for table `currencies`
+--
+ALTER TABLE `currencies`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `expansion_Id` (`expansion_id`);
 
 --
 -- Indexes for table `difficulties`
@@ -1573,6 +1698,28 @@ ALTER TABLE `recipe_mats`
   ADD KEY `item_id` (`item_id`);
 
 --
+-- Indexes for table `reputation_factions`
+--
+ALTER TABLE `reputation_factions`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `reputation_factions_ranks`
+--
+ALTER TABLE `reputation_factions_ranks`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `faction_id` (`faction_id`);
+
+--
+-- Indexes for table `reputation_faction_character`
+--
+ALTER TABLE `reputation_faction_character`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `character_id` (`character_id`),
+  ADD KEY `faction_id` (`faction_id`),
+  ADD KEY `rank_id` (`rank_id`);
+
+--
 -- Indexes for table `seasons`
 --
 ALTER TABLE `seasons`
@@ -1708,7 +1855,7 @@ ALTER TABLE `armory_item_rank`
 -- AUTO_INCREMENT for table `armor_item_stats`
 --
 ALTER TABLE `armor_item_stats`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `auction_bids_history`
@@ -1741,6 +1888,12 @@ ALTER TABLE `characters`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT for table `character_currencies`
+--
+ALTER TABLE `character_currencies`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `character_scoring`
 --
 ALTER TABLE `character_scoring`
@@ -1757,6 +1910,12 @@ ALTER TABLE `classes`
 --
 ALTER TABLE `class_specs`
   MODIFY `id` tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `currencies`
+--
+ALTER TABLE `currencies`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `difficulties`
@@ -1921,6 +2080,24 @@ ALTER TABLE `recipe_mats`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `reputation_factions`
+--
+ALTER TABLE `reputation_factions`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `reputation_factions_ranks`
+--
+ALTER TABLE `reputation_factions_ranks`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `reputation_faction_character`
+--
+ALTER TABLE `reputation_faction_character`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `seasons`
 --
 ALTER TABLE `seasons`
@@ -2053,7 +2230,15 @@ ALTER TABLE `characters`
   ADD CONSTRAINT `characters_ibfk_1` FOREIGN KEY (`class_id`) REFERENCES `classes` (`id`),
   ADD CONSTRAINT `characters_ibfk_2` FOREIGN KEY (`race_id`) REFERENCES `races` (`id`),
   ADD CONSTRAINT `characters_ibfk_3` FOREIGN KEY (`realm_id`) REFERENCES `realms` (`id`),
-  ADD CONSTRAINT `characters_ibfk_4` FOREIGN KEY (`account_id`) REFERENCES `accounts` (`id`);
+  ADD CONSTRAINT `characters_ibfk_4` FOREIGN KEY (`account_id`) REFERENCES `accounts` (`id`),
+  ADD CONSTRAINT `characters_ibfk_5` FOREIGN KEY (`faction_id`) REFERENCES `factions` (`id`);
+
+--
+-- Constraints for table `character_currencies`
+--
+ALTER TABLE `character_currencies`
+  ADD CONSTRAINT `character_currencies_ibfk_1` FOREIGN KEY (`character_id`) REFERENCES `characters` (`id`),
+  ADD CONSTRAINT `character_currencies_ibfk_2` FOREIGN KEY (`currency_id`) REFERENCES `currencies` (`id`);
 
 --
 -- Constraints for table `character_scoring`
@@ -2067,6 +2252,12 @@ ALTER TABLE `character_scoring`
 --
 ALTER TABLE `class_specs`
   ADD CONSTRAINT `class_specs_ibfk_1` FOREIGN KEY (`class_id`) REFERENCES `classes` (`id`);
+
+--
+-- Constraints for table `currencies`
+--
+ALTER TABLE `currencies`
+  ADD CONSTRAINT `currencies_ibfk_1` FOREIGN KEY (`expansion_id`) REFERENCES `expansions` (`id`);
 
 --
 -- Constraints for table `dungeons`
@@ -2158,6 +2349,20 @@ ALTER TABLE `raid_bosses_loot`
 ALTER TABLE `recipe_mats`
   ADD CONSTRAINT `recipe_mats_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `items` (`id`),
   ADD CONSTRAINT `recipe_mats_ibfk_2` FOREIGN KEY (`recipe_id`) REFERENCES `recipe` (`id`);
+
+--
+-- Constraints for table `reputation_factions_ranks`
+--
+ALTER TABLE `reputation_factions_ranks`
+  ADD CONSTRAINT `reputation_factions_ranks_ibfk_1` FOREIGN KEY (`faction_id`) REFERENCES `reputation_factions` (`id`);
+
+--
+-- Constraints for table `reputation_faction_character`
+--
+ALTER TABLE `reputation_faction_character`
+  ADD CONSTRAINT `reputation_faction_character_ibfk_1` FOREIGN KEY (`character_id`) REFERENCES `characters` (`id`),
+  ADD CONSTRAINT `reputation_faction_character_ibfk_2` FOREIGN KEY (`faction_id`) REFERENCES `reputation_factions` (`id`),
+  ADD CONSTRAINT `reputation_faction_character_ibfk_3` FOREIGN KEY (`rank_id`) REFERENCES `reputation_factions_ranks` (`id`);
 
 --
 -- Constraints for table `seasons`
