@@ -104,6 +104,8 @@ var SL_ConduitsMdl =  require("./db/expansions/shadowlands/conduits")(sequelize)
 // shadowlands end
 
 reputationCharacterMdl.belongsTo(charactersMdl, {foreignKey: 'character_id', as: 'charObj'});
+reputationCharacterMdl.belongsTo(reputationFactionsMdl, {foreignKey: 'faction_id', as: 'factionObj'});
+reputationCharacterMdl.belongsTo(reputationRanksMdl, {foreignKey: 'rank_id', as: 'factionRankObj'});
 
 
 auctionHouseListingMdl.belongsTo(itemsMdl, {foreignKey: 'item_id', as: 'itemObj'});

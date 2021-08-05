@@ -12,9 +12,9 @@ module.exports = function (dbObj) {
                 type: Sequelize.CHAR,
                 field: 'title'
             },
-            amount: {
+            maxLimit: {
                 type: Sequelize.INTEGER,
-                field: 'tamountitle'
+                field: 'amount'
             }
         },
         {

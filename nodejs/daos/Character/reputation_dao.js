@@ -13,6 +13,16 @@ function  getReputations(characterId = 4) {
                         id : characterId
                     }
                 },
+                {
+                    model: dbObj.reputationFactionsMdl,
+                    as: 'factionObj',
+                    required : true
+                },
+                {
+                    model: dbObj.reputationRanksMdl,
+                    as: 'factionRankObj',
+                    required : true
+                },
             ]           
         }).then(results => {
             resolve(results);
