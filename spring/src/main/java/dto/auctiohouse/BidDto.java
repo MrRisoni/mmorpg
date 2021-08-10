@@ -1,6 +1,6 @@
 package dto.auctiohouse;
 
-import dto.general.CharacterDto;
+import dto.characters.CharacterDto;
 import lombok.Data;
 
 import java.math.BigDecimal;

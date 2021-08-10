@@ -1,6 +1,6 @@
 package controllers;
 
-import dto.general.CharacterDto;
+import dto.characters.CharacterDto;
 import dto.misc.CharacterCurrencyDto;
 import entity.characters.CharacterMdl;
 import repositories.CharacterRepository;

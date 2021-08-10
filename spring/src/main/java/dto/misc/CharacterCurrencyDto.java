@@ -1,13 +1,14 @@
 package dto.misc;
 
-import dto.general.CharacterDto;
+import dto.characters.CharacterDto;
 import lombok.Data;
 
 @Data
 public class CharacterCurrencyDto {
     private Long id;
     private int amount;
-    private CharacterDto character;
+    private ExpansionDto expansion;
+    private CurrencyDto currency;
 
     public CharacterCurrencyDto() {
     }
@@ -28,11 +29,19 @@ public class CharacterCurrencyDto {
         this.amount = amount;
     }
 
-    public CharacterDto getCharacter() {
-        return character;
+    public ExpansionDto getExpansion() {
+        return expansion;
     }
 
-    public void setCharacter(CharacterDto character) {
-        this.character = character;
+    public void setExpansion(ExpansionDto expansion) {
+        this.expansion = expansion;
+    }
+
+    public CurrencyDto getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(CurrencyDto currency) {
+        this.currency = currency;
     }
 }

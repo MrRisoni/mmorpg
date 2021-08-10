@@ -1,4 +1,4 @@
-package dto.general;
+package dto.characters;
 
 import dto.misc.CharacterCurrencyDto;
 import lombok.Data;
@@ -26,6 +26,8 @@ public class CharacterDto {
     public void setName(String name) {
         this.name = name;
     }
+
+    public CharacterDto(){};
 
     public CharacterDto(Long id, String name) {
         this.id = id;

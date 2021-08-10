@@ -15,16 +15,15 @@ public class CharacterCurrency implements Serializable {
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "expansion_id")
-    private CharacterMdl characterObj;
-
-
-    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "currency_id")
     private Currency currencyObj;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "expansion_id")
+    private Expansion expacObj;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "group_id", nullable = false)
+    @JoinColumn(name = "character_id", nullable = false)
     private CharacterMdl charObj;
 
 
@@ -55,11 +54,11 @@ public class CharacterCurrency implements Serializable {
     }
 
     public CharacterMdl getCharacterObj() {
-        return characterObj;
+        return charObj;
     }
 
     public void setCharacterObj(CharacterMdl characterObj) {
-        this.characterObj = characterObj;
+        this.charObj = characterObj;
     }
 
     public Currency getCurrencyObj() {
@@ -68,5 +67,13 @@ public class CharacterCurrency implements Serializable {
 
     public void setCurrencyObj(Currency currencyObj) {
         this.currencyObj = currencyObj;
+    }
+
+    public Expansion getExpacObj() {
+        return expacObj;
+    }
+
+    public void setExpacObj(Expansion expacObj) {
+        this.expacObj = expacObj;
     }
 }
