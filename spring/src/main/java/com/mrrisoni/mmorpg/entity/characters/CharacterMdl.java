@@ -1,14 +1,17 @@
 package com.mrrisoni.mmorpg.entity.characters;
 
+import com.mrrisoni.mmorpg.entity.misc.CharacterCurrency;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
 @Table(name = "characters")
-public class Character implements Serializable {
+public class CharacterMdl implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,11 +21,13 @@ public class Character implements Serializable {
     @Column
     private String name;
 
+    @OneToMany(mappedBy = "charObj", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<CharacterCurrency> currencyList = new ArrayList<>();
 
-    public Character() {
+    public CharacterMdl() {
     }
 
-    public Character(Long id, String name) {
+    public CharacterMdl(Long id, String name) {
         this.id = id;
         this.name = name;
     }

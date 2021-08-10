@@ -1,5 +1,7 @@
 package com.mrrisoni.mmorpg.entity.misc;
 
+import com.mrrisoni.mmorpg.entity.characters.CharacterMdl;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -14,12 +16,16 @@ public class CharacterCurrency implements Serializable {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "expansion_id")
-    private Character characterObj;
+    private CharacterMdl characterObj;
 
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "currency_id")
     private Currency currencyObj;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "group_id", nullable = false)
+    private CharacterMdl charObj;
 
 
     @Column
@@ -48,11 +54,11 @@ public class CharacterCurrency implements Serializable {
         this.amount = amount;
     }
 
-    public Character getCharacterObj() {
+    public CharacterMdl getCharacterObj() {
         return characterObj;
     }
 
-    public void setCharacterObj(Character characterObj) {
+    public void setCharacterObj(CharacterMdl characterObj) {
         this.characterObj = characterObj;
     }
 

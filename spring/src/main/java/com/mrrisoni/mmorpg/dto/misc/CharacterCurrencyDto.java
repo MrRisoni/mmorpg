@@ -1,11 +1,13 @@
 package com.mrrisoni.mmorpg.dto.misc;
 
+import com.mrrisoni.mmorpg.dto.general.CharacterDto;
 import lombok.Data;
 
 @Data
 public class CharacterCurrencyDto {
     private Long id;
     private int amount;
+    private CharacterDto character;
 
     public CharacterCurrencyDto() {
     }
@@ -24,5 +26,13 @@ public class CharacterCurrencyDto {
 
     public void setAmount(int amount) {
         this.amount = amount;
+    }
+
+    public CharacterDto getCharacter() {
+        return character;
+    }
+
+    public void setCharacter(CharacterDto character) {
+        this.character = character;
     }
 }

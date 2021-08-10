@@ -1,11 +1,15 @@
 package com.mrrisoni.mmorpg.dto.general;
 
+import com.mrrisoni.mmorpg.dto.misc.CharacterCurrencyDto;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 public class CharacterDto {
     private Long id;
     private String name;
+    private List<CharacterCurrencyDto> currencyList;
 
     public Long getId() {
         return id;
@@ -24,9 +28,15 @@ public class CharacterDto {
     }
 
     public CharacterDto(Long id, String name) {
-
-
         this.id = id;
         this.name = name;
+    }
+
+    public List<CharacterCurrencyDto> getCurrencyList() {
+        return currencyList;
+    }
+
+    public void setCurrencyList(List<CharacterCurrencyDto> currencyList) {
+        this.currencyList = currencyList;
     }
 }
