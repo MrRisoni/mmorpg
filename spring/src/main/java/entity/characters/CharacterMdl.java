@@ -1,6 +1,8 @@
 package entity.characters;
 
 import entity.misc.CharacterCurrency;
+import entity.misc.Expansion;
+import entity.misc.Realm;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -23,6 +25,10 @@ public class CharacterMdl implements Serializable {
 
     @OneToMany(mappedBy = "charObj", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<CharacterCurrency> currencyList = new ArrayList<>();
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "realm_id")
+    private Realm realmObj;
 
     public CharacterMdl() {
     }
@@ -49,6 +55,11 @@ public class CharacterMdl implements Serializable {
         this.name = name;
     }
 
+    public Realm getRealmObj() {
+        return realmObj;
+    }
 
-
+    public void setRealmObj(Realm realmObj) {
+        this.realmObj = realmObj;
+    }
 }

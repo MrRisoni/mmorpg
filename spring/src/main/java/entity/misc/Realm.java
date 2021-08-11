@@ -4,8 +4,8 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "expansions")
-public class Expansion implements Serializable {
+@Table(name = "realms")
+public class Realm {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,14 +13,14 @@ public class Expansion implements Serializable {
     private Long id;
 
     @Column
-    private String title;
+    private String name;
 
-    public Expansion() {
+    public Realm() {
     }
 
-    public Expansion(Long id, String title) {
+    public Realm(Long id, String name) {
         this.id = id;
-        this.title = title;
+        this.name = name;
     }
 
     public Long getId() {
@@ -31,11 +31,11 @@ public class Expansion implements Serializable {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
     }
 }

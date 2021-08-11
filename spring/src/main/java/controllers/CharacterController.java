@@ -37,4 +37,20 @@ public class CharacterController {
         }
     }
 
+    @RequestMapping(value= "/api/character/armory" , method = RequestMethod.GET)
+    public CharacterDto getArmory(Long characterId) {
+        try {
+
+            Optional<CharacterMdl> charItm = charRepo.findById(4L);
+            CharacterMdl charEntity =charItm.orElse(null);
+            CharacterDto chardto = modelMapper.map(charEntity, CharacterDto.class);
+            chardto.setCurrencyList(null);
+            return chardto;
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
 }
