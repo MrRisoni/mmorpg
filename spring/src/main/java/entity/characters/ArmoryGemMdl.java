@@ -1,25 +1,24 @@
 package entity.characters;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-@Table(name = "factions")
-public class FactionMdl {
+@Table(name = "armory_gems")
+public class ArmoryGemMdl implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private Long id;
 
-    @Column
-    private String title;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "armory_id")
+    private Armory armoryObj;
 
-    public FactionMdl() {
-    }
 
-    public FactionMdl(Long id, String title) {
+    public ArmoryGemMdl(Long id) {
         this.id = id;
-        this.title = title;
     }
 
     public Long getId() {
@@ -30,11 +29,4 @@ public class FactionMdl {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
 }

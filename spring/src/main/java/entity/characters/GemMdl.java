@@ -1,13 +1,11 @@
-package entity.general;
-
-import lombok.Data;
+package entity.characters;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "items")
-public class Item implements Serializable {
+@Table(name = "gems")
+public class GemMdl implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,10 +15,10 @@ public class Item implements Serializable {
     @Column
     private String title;
 
-    public Item() {
+    public GemMdl() {
     }
 
-    public Item(Long id, String title) {
+    public GemMdl(Long id, String title) {
         this.id = id;
         this.title = title;
     }

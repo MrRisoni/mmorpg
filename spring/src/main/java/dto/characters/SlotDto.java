@@ -1,26 +1,16 @@
-package entity.general;
+package dto.characters;
 
 import lombok.Data;
 
-import javax.persistence.*;
-import java.io.Serializable;
-
-@Entity
-@Table(name = "items")
-public class Item implements Serializable {
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
+@Data
+public class SlotDto {
     private Long id;
-
-    @Column
     private String title;
 
-    public Item() {
+    public SlotDto() {
     }
 
-    public Item(Long id, String title) {
+    public SlotDto(Long id, String title) {
         this.id = id;
         this.title = title;
     }
