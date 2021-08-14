@@ -1,5 +1,6 @@
 package entity.characters;
 
+import dto.misc.FactionDto;
 import entity.misc.CharacterCurrency;
 import entity.misc.Expansion;
 import entity.misc.Realm;
@@ -10,7 +11,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
 @Entity
 @Table(name = "characters")
 public class CharacterMdl implements Serializable {
@@ -29,6 +29,18 @@ public class CharacterMdl implements Serializable {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "realm_id")
     private Realm realmObj;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "class_id")
+    private ClassMdl classObj;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "race_id")
+    private RaceMdl raceObj;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "faction_id")
+    private FactionMdl factionObj;
 
     public CharacterMdl() {
     }
@@ -61,5 +73,29 @@ public class CharacterMdl implements Serializable {
 
     public void setRealmObj(Realm realmObj) {
         this.realmObj = realmObj;
+    }
+
+    public ClassMdl getClassObj() {
+        return classObj;
+    }
+
+    public void setClassObj(ClassMdl classObj) {
+        this.classObj = classObj;
+    }
+
+    public RaceMdl getRaceObj() {
+        return raceObj;
+    }
+
+    public void setRaceObj(RaceMdl raceObj) {
+        this.raceObj = raceObj;
+    }
+
+    public FactionMdl getFactionObj() {
+        return factionObj;
+    }
+
+    public void setFactionObj(FactionMdl factionObj) {
+        this.factionObj = factionObj;
     }
 }

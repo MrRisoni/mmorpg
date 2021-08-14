@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-@Data
+
 @Entity
 @Table(name = "auction_listings")
 public class AuctionHouseListing implements Serializable {

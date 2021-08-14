@@ -1,13 +1,12 @@
-package entity.general;
+package entity.characters;
 
 import lombok.Data;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
-@Table(name = "items")
-public class Item implements Serializable {
+@Table(name = "factions")
+public class FactionMdl {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,14 +14,14 @@ public class Item implements Serializable {
     private Long id;
 
     @Column
-    private String name;
+    private String title;
 
-    public Item() {
+    public FactionMdl() {
     }
 
-    public Item(Long id, String name) {
+    public FactionMdl(Long id, String title) {
         this.id = id;
-        this.name = name;
+        this.title = title;
     }
 
     public Long getId() {
@@ -33,11 +32,11 @@ public class Item implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

@@ -45,6 +45,7 @@ public class CharacterController {
             CharacterMdl charEntity =charItm.orElse(null);
             CharacterDto chardto = modelMapper.map(charEntity, CharacterDto.class);
             chardto.setCurrencyList(null);
+
             return chardto;
         }
         catch (Exception ex){
