@@ -9,6 +9,7 @@ import lombok.Data;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -41,6 +42,9 @@ public class CharacterMdl implements Serializable {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "faction_id")
     private FactionMdl factionObj;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "characterObj", fetch = FetchType.LAZY)
+    private Collection<Armory> armoryCollection;
 
     public CharacterMdl() {
     }
@@ -97,5 +101,13 @@ public class CharacterMdl implements Serializable {
 
     public void setFactionObj(FactionMdl factionObj) {
         this.factionObj = factionObj;
+    }
+
+    public Collection<Armory> getArmoryCollection() {
+        return armoryCollection;
+    }
+
+    public void setArmoryCollection(Collection<Armory> armoryCollection) {
+        this.armoryCollection = armoryCollection;
     }
 }

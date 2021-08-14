@@ -3,6 +3,7 @@ package dto.characters;
 import dto.misc.*;
 import lombok.Data;
 
+import java.util.Collection;
 import java.util.List;
 
 @Data
@@ -14,6 +15,7 @@ public class CharacterDto {
     private RaceDto race;
     private ClassDto classObj;
     private FactionDto factionObj;
+    private Collection<ArmoryDto> armoryCollection;
 
     public Long getId() {
         return id;
@@ -38,13 +40,15 @@ public class CharacterDto {
         this.name = name;
     }
 
-    public CharacterDto(Long id, String name, List<CharacterCurrencyDto> currencyList, RealmDto realm, RaceDto race, ClassDto clas) {
+    public CharacterDto(Long id, String name, List<CharacterCurrencyDto> currencyList, RealmDto realm, RaceDto race, ClassDto classObj, FactionDto factionObj, Collection<ArmoryDto> armoryCollection) {
         this.id = id;
         this.name = name;
         this.currencyList = currencyList;
         this.realm = realm;
         this.race = race;
-        this.classObj = clas;
+        this.classObj = classObj;
+        this.factionObj = factionObj;
+        this.armoryCollection = armoryCollection;
     }
 
     public List<CharacterCurrencyDto> getCurrencyList() {
@@ -85,5 +89,13 @@ public class CharacterDto {
 
     public void setFactionObj(FactionDto factionObj) {
         this.factionObj = factionObj;
+    }
+
+    public Collection<ArmoryDto> getArmoryCollection() {
+        return armoryCollection;
+    }
+
+    public void setArmoryCollection(Collection<ArmoryDto> armoryCollection) {
+        this.armoryCollection = armoryCollection;
     }
 }
